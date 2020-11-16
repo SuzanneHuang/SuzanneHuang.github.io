@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Suzanne的博客</title>
+  <icon>https://www.gravatar.com/avatar/3fbc1a0090d94fe54cbe8b81929d3bfd</icon>
+  <subtitle>开心就好</subtitle>
+  <link href="https://suzannehuang.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://suzannehuang.github.io/"/>
+  <updated>2020-11-01T13:09:22.128Z</updated>
+  <id>https://suzannehuang.github.io/</id>
+  
+  <author>
+    <name>Suzanne</name>
+    <email>suzannehuang@foxmail.com</email>
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Local Storage简要研究</title>
+    <link href="https://suzannehuang.github.io/2020/11/01/Local-Storage%E7%AE%80%E8%A6%81%E7%A0%94%E7%A9%B6/"/>
+    <id>https://suzannehuang.github.io/2020/11/01/Local-Storage%E7%AE%80%E8%A6%81%E7%A0%94%E7%A9%B6/</id>
+    <published>2020-11-01T11:57:24.000Z</published>
+    <updated>2020-11-01T13:09:22.128Z</updated>
+    
+    <content type="html"><![CDATA[<p>在网页中经常会用到local storage的技术，我看了一下它在chromium源码中的实现。</p><p>打开一个网页，在js调用local storage接口时，比如localStorage.getItem(key)。首先会从leveldb数据库中获取当前网站之前存储的数据信息把他放到内存DOMStorageMap中，然后读取的时候就直接从DOMStorageMap类的std::map成员获取item。setItem的时候会把数据写到leveldb中。leveldb里面kv的存储内容为key:url+itemKey   value:itemValue。加载leveldb数据的时候会筛选出当前网站的local storage通过判断它的key的前缀，这样就做到了对于不同网站的local storage数据存储的隔离。</p><p>画了里面涉及到的类的时序图：</p><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201101194820134.png" alt="image-20201101194820134"></p><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201101195050516.png" alt="image-20201101195050516"></p><p>js的调用的browser里面是在renderer进程，对leveldb数据库的操作是在browser进程，这两个进程之间的通信依靠mojom。mojom IPC在linux平台的底层实现是通过domain socket实现的。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在网页中经常会用到local storage的技术，我看了一下它在chromium源码中的实现。&lt;/p&gt;
+&lt;p&gt;打开一个网页，在js调用local storage接口时，比如localStorage.getItem(key)。首先会从leveldb数据库中获取当前网站之前存</summary>
+      
+    
+    
+    
+    
+    <category term="chromium" scheme="https://suzannehuang.github.io/tags/chromium/"/>
+    
+    <category term="Local storage" scheme="https://suzannehuang.github.io/tags/Local-storage/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>build llvm-symbolizer for arm target</title>
+    <link href="https://suzannehuang.github.io/2020/10/25/build-llvm-symbolizer-for-arm-target/"/>
+    <id>https://suzannehuang.github.io/2020/10/25/build-llvm-symbolizer-for-arm-target/</id>
+    <published>2020-10-25T07:04:05.000Z</published>
+    <updated>2020-10-25T07:05:19.347Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="下载llvm-clang-compiler-rt源码"><a href="#下载llvm-clang-compiler-rt源码" class="headerlink" title="下载llvm/clang/compiler-rt源码"></a>下载llvm/clang/compiler-rt源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm</span><br><span class="line">cd llvm</span><br><span class="line">R=$(svn info | grep Revision: | awk &#x27;&#123;print $2&#125;&#x27;) </span><br><span class="line">(cd tools &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure><h2 id="编译llvm-symbolizer"><a href="#编译llvm-symbolizer" class="headerlink" title="编译llvm-symbolizer"></a>编译llvm-symbolizer</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCMAKE_SYSROOT=~/toolchain/arm-2019.09/arm-linux-gnueabi/libc/ -DCMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN=~/toolchain/arm-2019.09 -DCMAKE_ASM_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER=~/toolchain/arm-2019.09/bin/arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=~/toolchain/arm-2019.09/bin/arm-linux-gnueabi-g++ -DLLVM_TARGETS_TO_BUILD=ARM -DLLVM_TARGET_ARCH=ARM -DLLVM_DEFAULT_TARGET_TRIPLE=arm-linux-gnueabi -DCLANG_TABLEGEN=~/llvm_9.0.0/test_llvm/bin/clang-tblgen -DLLVM_TABLEGEN=~/llvm_9.0.0/test_llvm/bin/llvm-tblgen -DCMAKE_CROSSCOMPILING=True -DCMAKE_INSTALL_PREFIX=~/llvm-symbolizer_for_arm -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=true -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON ../llvm</span><br><span class="line">make -j32 llvm-symbolizer</span><br></pre></td></tr></table></figure><p>编译成功，生成的llvm-symbolizer在bin目录下</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://llvm.org/docs/HowToCrossCompileLLVM.html">https://llvm.org/docs/HowToCrossCompileLLVM.html</a></p><p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild">https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;下载llvm-clang-compiler-rt源码&quot;&gt;&lt;a href=&quot;#下载llvm-clang-compiler-rt源码&quot; class=&quot;headerlink&quot; title=&quot;下载llvm/clang/compiler-rt源码&quot;&gt;&lt;/a&gt;下载llvm/c</summary>
+      
+    
+    
+    
+    
+    <category term="cross compile" scheme="https://suzannehuang.github.io/tags/cross-compile/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决.sh: Permission denied</title>
+    <link href="https://suzannehuang.github.io/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/"/>
+    <id>https://suzannehuang.github.io/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/</id>
+    <published>2020-09-08T08:23:36.000Z</published>
+    <updated>2020-09-08T08:47:15.517Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在嵌入式系统想要在/cusdata目录执行脚本时发现该目录没有执行权限，会提示Permission denied</p><p>可是ls -l发现该目录和文件都是有执行权限的，查看/etc/scripts/mount_cusdata.sh发现</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -orw,,nosuid,nodev,noexec -t ext4 /dev/mmcblk0p23 /cusdata;</span><br></pre></td></tr></table></figure><p>系统给/cusdata分区挂载时加入了nosuid,nodev,noexec这些挂载选项（目的是为了提高linux系统安全性），所以导致即使在该目录让脚本可执行，实际还是不能执行。</p><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p> 编辑/etc/scripts/mount_cusdata.sh，去掉nosuid,nodev,noexec选项重启就ok了，还要注意关闭selinux，防止软链接之类的功能正常运转。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;在嵌入式系统想要在/cusdata目录执行脚本时发现该目录没有执行权限，会提示Permission denied&lt;/p&gt;
+&lt;p&gt;可是ls -</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="https://suzannehuang.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>build asan for arm target</title>
+    <link href="https://suzannehuang.github.io/2020/09/04/build-asan-for-arm-target/"/>
+    <id>https://suzannehuang.github.io/2020/09/04/build-asan-for-arm-target/</id>
+    <published>2020-09-04T13:29:00.000Z</published>
+    <updated>2020-09-14T09:26:10.875Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。</p><h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> somewhere</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Get llvm, clang and compiler-rt</span></span><br><span class="line">svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm</span><br><span class="line">cd llvm</span><br><span class="line">R=$(svn info | grep Revision: | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">(cd tools &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure><p>To switch your checkout to read-write mode:</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CNAME=your_name_here</span><br><span class="line">cd llvm</span><br><span class="line">svn switch --relocate http://llvm.org/svn/llvm-project/llvm/trunk https://$CNAME@llvm.org/svn/llvm-project/llvm/trunk</span><br><span class="line">(cd tools &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/cfe/trunk https://$CNAME@llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/compiler-rt/trunk https://$CNAME@llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure><h4 id="交叉编译"><a href="#交叉编译" class="headerlink" title="交叉编译"></a>交叉编译</h4><p>首先进入源码里compiler-rt所在同级目录，创建asan_build目录。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCOMPILER_RT_BUILD_BUILTINS=ON -DCOMPILER_RT_BUILD_SANITIZERS=ON -DCOMPILER_RT_BUILD_XRAY=ON -DCOMPILER_RT_BUILD_LIBFUZZER=ON -DCOMPILER_RT_BUILD_PROFILE=ON -DCMAKE_SYSROOT=/home/core/toolchain/arm-2019.09/arm-linux-gnueabi/libc/ -DCMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN=/home/core/toolchain/arm-2019.09 -DCMAKE_ASM_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON -DCMAKE_C_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-g++ ../compiler-rt/</span><br><span class="line">make</span><br></pre></td></tr></table></figure><p>编译成功，可以看到lib/linux/下有asan相关的库。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">clang_rt.crtbegin-arm.o          libclang_rt.cfi-arm.a                libclang_rt.scudo_minimal-arm.so         libclang_rt.ubsan_standalone_cxx-arm.a</span><br><span class="line">clang_rt.crtend-arm.o            libclang_rt.cfi_diag-arm.a           libclang_rt.stats-arm.a                  libclang_rt.ubsan_standalone_cxx-arm.a.syms</span><br><span class="line">libclang_rt.asan-arm.a           libclang_rt.lsan-arm.a               libclang_rt.stats_client-arm.a           libclang_rt.xray-arm.a</span><br><span class="line">libclang_rt.asan-arm.a.syms      libclang_rt.profile-arm.a            libclang_rt.ubsan_minimal-arm.a          libclang_rt.xray-basic-arm.a</span><br><span class="line">libclang_rt.asan-arm.so          libclang_rt.scudo-arm.a              libclang_rt.ubsan_minimal-arm.a.syms     libclang_rt.xray-fdr-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a       libclang_rt.scudo-arm.so             libclang_rt.ubsan_minimal-arm.so         libclang_rt.xray-profiling-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a.syms  libclang_rt.scudo_cxx-arm.a          libclang_rt.ubsan_standalone-arm.a</span><br><span class="line">libclang_rt.asan-preinit-arm.a   libclang_rt.scudo_cxx_minimal-arm.a  libclang_rt.ubsan_standalone-arm.a.syms</span><br><span class="line">libclang_rt.builtins-arm.a       libclang_rt.scudo_minimal-arm.a      libclang_rt.ubsan_standalone-arm.so</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild">https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild</a></p><p><a href="https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html">https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-</summary>
+      
+    
+    
+    
+    
+    <category term="cross compile" scheme="https://suzannehuang.github.io/tags/cross-compile/"/>
+    
+  </entry>
+  
+</feed>
