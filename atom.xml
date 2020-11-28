@@ -6,7 +6,7 @@
   <link href="https://suzannehuang.github.io/atom.xml" rel="self"/>
   
   <link href="https://suzannehuang.github.io/"/>
-  <updated>2020-11-28T09:59:15.562Z</updated>
+  <updated>2020-11-28T10:05:59.047Z</updated>
   <id>https://suzannehuang.github.io/</id>
   
   <author>
@@ -21,17 +21,14 @@
     <link href="https://suzannehuang.github.io/2020/11/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89/"/>
     <id>https://suzannehuang.github.io/2020/11/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89/</id>
     <published>2020-11-21T08:42:37.000Z</published>
-    <updated>2020-11-28T09:59:15.562Z</updated>
+    <updated>2020-11-28T10:05:59.047Z</updated>
     
-    <content type="html"><![CDATA[<!-- ttoc --><p>[TOC]</p><h1><span id="操作系统">操作系统</span></h1><h2><span id="用户态和内核态的区别">用户态和内核态的区别</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183736302.png" alt="image-20201121183736302"></p><h2><span id="如何设计server使得能够接收多个客户端的请求">如何设计server，使得能够接收多个客户端的请求</span></h2><p>多线程，线程池，io复用</p><h2><span id="死循环来连接时新建线程的方法效率有点低怎么改进">死循环+来连接时新建线程的方法效率有点低，怎么改进?</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121184126990.png" alt="image-20201121184126990"></p><h2><span id="怎么唤醒被阻塞的socket线程">怎么唤醒被阻塞的socket线程？</span></h2><p>给阻塞时候缺少的资源</p><h2><span id="如何确定当前线程是繁忙还是阻塞">如何确定当前线程是繁忙还是阻塞</span></h2><p>使用ps命令查看</p><h2><span id="两个进程访问临界区资源会不会出现都获得自旋锁的情况">两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</span></h2><p>单核cpu，并且开了抢占可以造成这种情况。</p><h2><span id="c有哪些锁">C++有哪些锁？</span></h2><p>互斥锁 读写锁 自旋锁 条件变量</p><h2><span id="死锁产生的必要条件">死锁产生的必要条件：</span></h2><p>1、资源不可被剥夺</p><p>2、资源请求与保持：资源请求资源而阻塞时，对已获得的资源保持不放</p><p>3、资源是互斥状态</p><p> 4、循环等待</p><h2><span id="内存溢出和内存泄漏">内存溢出和内存泄漏</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121190504336.png" alt="image-20201121190504336"></p><h2><span id="协程">协程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191822800.png" alt="image-20201121191822800"></p><h2><span id="源码到可执行文件过程">源码到可执行文件过程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128164951043.png" alt="image-20201128164951043"></p><h2><span id="僵尸进程">僵尸进程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128165652882.png" alt="image-20201128165652882"></p><h2><span id="5种io模型">5种IO模型</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170445945.png" alt="image-20201128170445945"></p><h2><span id="怎么实现线程池">怎么实现线程池</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170909754.png" alt="image-20201128170909754"></p>]]></content>
+    <content type="html"><![CDATA[<h1><span id="操作系统">操作系统</span></h1><h2><span id="用户态和内核态的区别">用户态和内核态的区别</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183736302.png" alt="image-20201121183736302"></p><h2><span id="如何设计server使得能够接收多个客户端的请求">如何设计server，使得能够接收多个客户端的请求</span></h2><p>多线程，线程池，io复用</p><h2><span id="死循环来连接时新建线程的方法效率有点低怎么改进">死循环+来连接时新建线程的方法效率有点低，怎么改进?</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121184126990.png" alt="image-20201121184126990"></p><h2><span id="怎么唤醒被阻塞的socket线程">怎么唤醒被阻塞的socket线程？</span></h2><p>给阻塞时候缺少的资源</p><h2><span id="如何确定当前线程是繁忙还是阻塞">如何确定当前线程是繁忙还是阻塞</span></h2><p>使用ps命令查看</p><h2><span id="两个进程访问临界区资源会不会出现都获得自旋锁的情况">两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</span></h2><p>单核cpu，并且开了抢占可以造成这种情况。</p><h2><span id="c有哪些锁">C++有哪些锁？</span></h2><p>互斥锁 读写锁 自旋锁 条件变量</p><h2><span id="死锁产生的必要条件">死锁产生的必要条件：</span></h2><p>1、资源不可被剥夺</p><p>2、资源请求与保持：资源请求资源而阻塞时，对已获得的资源保持不放</p><p>3、资源是互斥状态</p><p> 4、循环等待</p><h2><span id="内存溢出和内存泄漏">内存溢出和内存泄漏</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121190504336.png" alt="image-20201121190504336"></p><h2><span id="协程">协程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191822800.png" alt="image-20201121191822800"></p><h2><span id="源码到可执行文件过程">源码到可执行文件过程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128164951043.png" alt="image-20201128164951043"></p><h2><span id="僵尸进程">僵尸进程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128165652882.png" alt="image-20201128165652882"></p><h2><span id="5种io模型">5种IO模型</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170445945.png" alt="image-20201128170445945"></p><h2><span id="怎么实现线程池">怎么实现线程池</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170909754.png" alt="image-20201128170909754"></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;!-- ttoc --&gt;
-
-&lt;p&gt;[TOC]&lt;/p&gt;
-&lt;h1&gt;&lt;span id=&quot;操作系统&quot;&gt;操作系统&lt;/span&gt;&lt;/h1&gt;&lt;h2&gt;&lt;span id=&quot;用户态和内核态的区别&quot;&gt;用户态和内核态的区别&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://raw.git</summary>
+    <summary type="html">&lt;h1&gt;&lt;span id=&quot;操作系统&quot;&gt;操作系统&lt;/span&gt;&lt;/h1&gt;&lt;h2&gt;&lt;span id=&quot;用户态和内核态的区别&quot;&gt;用户态和内核态的区别&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/SuzanneHu</summary>
       
     
     
