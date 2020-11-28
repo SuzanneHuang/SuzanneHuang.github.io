@@ -6,7 +6,7 @@
   <link href="https://suzannehuang.github.io/atom.xml" rel="self"/>
   
   <link href="https://suzannehuang.github.io/"/>
-  <updated>2020-11-28T11:35:27.529Z</updated>
+  <updated>2020-11-28T11:37:44.527Z</updated>
   <id>https://suzannehuang.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test</title>
+    <link href="https://suzannehuang.github.io/2020/11/28/test/"/>
+    <id>https://suzannehuang.github.io/2020/11/28/test/</id>
+    <published>2020-11-28T11:37:30.000Z</published>
+    <updated>2020-11-28T11:37:44.527Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><h3 id="哈哈哈"><a href="#哈哈哈" class="headerlink" title="哈哈哈"></a>哈哈哈</h3>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;test&quot;&gt;&lt;a href=&quot;#test&quot; class=&quot;headerlink&quot; title=&quot;test&quot;&gt;&lt;/a&gt;test&lt;/h1&gt;&lt;h3 id=&quot;哈哈哈&quot;&gt;&lt;a href=&quot;#哈哈哈&quot; class=&quot;headerlink&quot; title=&quot;哈哈哈&quot;&gt;&lt;/a&gt;哈哈</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>设计模式学习（一）</title>
