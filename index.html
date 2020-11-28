@@ -171,19 +171,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="用户态和内核态的区别"><a href="#用户态和内核态的区别" class="headerlink" title="用户态和内核态的区别"></a>用户态和内核态的区别</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183736302.png" alt="image-20201121183736302"></p>
-<h3 id="如何设计server，使得能够接收多个客户端的请求"><a href="#如何设计server，使得能够接收多个客户端的请求" class="headerlink" title="如何设计server，使得能够接收多个客户端的请求"></a>如何设计server，使得能够接收多个客户端的请求</h3><p>多线程，线程池，io复用</p>
-<h3 id="死循环-来连接时新建线程的方法效率有点低，怎么改进"><a href="#死循环-来连接时新建线程的方法效率有点低，怎么改进" class="headerlink" title="死循环+来连接时新建线程的方法效率有点低，怎么改进?"></a>死循环+来连接时新建线程的方法效率有点低，怎么改进?</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121184126990.png" alt="image-20201121184126990"></p>
-<h3 id="怎么唤醒被阻塞的socket线程？"><a href="#怎么唤醒被阻塞的socket线程？" class="headerlink" title="怎么唤醒被阻塞的socket线程？"></a>怎么唤醒被阻塞的socket线程？</h3><p>给阻塞时候缺少的资源</p>
-<h3 id="如何确定当前线程是繁忙还是阻塞"><a href="#如何确定当前线程是繁忙还是阻塞" class="headerlink" title="如何确定当前线程是繁忙还是阻塞"></a>如何确定当前线程是繁忙还是阻塞</h3><p>使用ps命令查看</p>
-<h3 id="两个进程访问临界区资源，会不会出现都获得自旋锁的情况？"><a href="#两个进程访问临界区资源，会不会出现都获得自旋锁的情况？" class="headerlink" title="两个进程访问临界区资源，会不会出现都获得自旋锁的情况？"></a>两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</h3><p>单核cpu，并且开了抢占可以造成这种情况。</p>
-<h3 id="C-有哪些锁？"><a href="#C-有哪些锁？" class="headerlink" title="C++有哪些锁？"></a>C++有哪些锁？</h3><p>互斥锁 读写锁 自旋锁 条件变量</p>
-<h3 id="死锁产生的必要条件："><a href="#死锁产生的必要条件：" class="headerlink" title="死锁产生的必要条件："></a>死锁产生的必要条件：</h3><p>1、资源不可被剥夺</p>
+        <p>[TOC]</p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="用户态和内核态的区别"><a href="#用户态和内核态的区别" class="headerlink" title="用户态和内核态的区别"></a>用户态和内核态的区别</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183736302.png" alt="image-20201121183736302"></p>
+<h2 id="如何设计server，使得能够接收多个客户端的请求"><a href="#如何设计server，使得能够接收多个客户端的请求" class="headerlink" title="如何设计server，使得能够接收多个客户端的请求"></a>如何设计server，使得能够接收多个客户端的请求</h2><p>多线程，线程池，io复用</p>
+<h2 id="死循环-来连接时新建线程的方法效率有点低，怎么改进"><a href="#死循环-来连接时新建线程的方法效率有点低，怎么改进" class="headerlink" title="死循环+来连接时新建线程的方法效率有点低，怎么改进?"></a>死循环+来连接时新建线程的方法效率有点低，怎么改进?</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121184126990.png" alt="image-20201121184126990"></p>
+<h2 id="怎么唤醒被阻塞的socket线程？"><a href="#怎么唤醒被阻塞的socket线程？" class="headerlink" title="怎么唤醒被阻塞的socket线程？"></a>怎么唤醒被阻塞的socket线程？</h2><p>给阻塞时候缺少的资源</p>
+<h2 id="如何确定当前线程是繁忙还是阻塞"><a href="#如何确定当前线程是繁忙还是阻塞" class="headerlink" title="如何确定当前线程是繁忙还是阻塞"></a>如何确定当前线程是繁忙还是阻塞</h2><p>使用ps命令查看</p>
+<h2 id="两个进程访问临界区资源，会不会出现都获得自旋锁的情况？"><a href="#两个进程访问临界区资源，会不会出现都获得自旋锁的情况？" class="headerlink" title="两个进程访问临界区资源，会不会出现都获得自旋锁的情况？"></a>两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</h2><p>单核cpu，并且开了抢占可以造成这种情况。</p>
+<h2 id="C-有哪些锁？"><a href="#C-有哪些锁？" class="headerlink" title="C++有哪些锁？"></a>C++有哪些锁？</h2><p>互斥锁 读写锁 自旋锁 条件变量</p>
+<h2 id="死锁产生的必要条件："><a href="#死锁产生的必要条件：" class="headerlink" title="死锁产生的必要条件："></a>死锁产生的必要条件：</h2><p>1、资源不可被剥夺</p>
 <p>2、资源请求与保持：资源请求资源而阻塞时，对已获得的资源保持不放</p>
 <p>3、资源是互斥状态</p>
 <p> 4、循环等待</p>
-<h3 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121190504336.png" alt="image-20201121190504336"></p>
-<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191822800.png" alt="image-20201121191822800"></p>
+<h2 id="内存溢出和内存泄漏"><a href="#内存溢出和内存泄漏" class="headerlink" title="内存溢出和内存泄漏"></a>内存溢出和内存泄漏</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121190504336.png" alt="image-20201121190504336"></p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191822800.png" alt="image-20201121191822800"></p>
+<h2 id="源码到可执行文件过程"><a href="#源码到可执行文件过程" class="headerlink" title="源码到可执行文件过程"></a>源码到可执行文件过程</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128164951043.png" alt="image-20201128164951043"></p>
+<h2 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128165652882.png" alt="image-20201128165652882"></p>
+<h2 id="5种IO模型"><a href="#5种IO模型" class="headerlink" title="5种IO模型"></a>5种IO模型</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170445945.png" alt="image-20201128170445945"></p>
+<h2 id="怎么实现线程池"><a href="#怎么实现线程池" class="headerlink" title="怎么实现线程池"></a>怎么实现线程池</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170909754.png" alt="image-20201128170909754"></p>
 
       
 
@@ -253,7 +258,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="操作系统中的结构体对齐，字节对齐"><a href="#操作系统中的结构体对齐，字节对齐" class="headerlink" title="操作系统中的结构体对齐，字节对齐"></a>操作系统中的结构体对齐，字节对齐</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117200402383.png" alt="image-20201117200402383"></p>
+        <p>[TOC]</p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="操作系统中的结构体对齐，字节对齐"><a href="#操作系统中的结构体对齐，字节对齐" class="headerlink" title="操作系统中的结构体对齐，字节对齐"></a>操作系统中的结构体对齐，字节对齐</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117200402383.png" alt="image-20201117200402383"></p>
 <h2 id="Linux的4种锁"><a href="#Linux的4种锁" class="headerlink" title="Linux的4种锁"></a>Linux的4种锁</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117203014079.png" alt="image-20201117203014079"></p>
 <h2 id="软链接和硬链接"><a href="#软链接和硬链接" class="headerlink" title="软链接和硬链接"></a>软链接和硬链接</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117205353128.png" alt="image-20201117205353128"></p>
 <h2 id="大端和小端"><a href="#大端和小端" class="headerlink" title="大端和小端"></a>大端和小端</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117210142148.png" alt="image-20201117210142148"></p>
@@ -331,7 +337,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png" alt="image-20201109191155712"></p>
+        <p>[TOC]</p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png" alt="image-20201109191155712"></p>
 <p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191445584.png" alt="image-20201109191445584"></p>
 <h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><h4 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193110806.png" alt="image-20201109193110806"></p>
 <h4 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193150619.png" alt="image-20201109193150619"></p>

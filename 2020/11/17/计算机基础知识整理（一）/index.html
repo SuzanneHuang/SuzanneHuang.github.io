@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="https://suzannehuang.github.io">
   <title>计算机基础知识整理（一） | Suzanne的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="操作系统进程和线程基本概念  通信进程间通信 线程间通信 线程间同步方式   有进程后为什么需要线程 单核机器上写多线程程序是否考虑要加锁？ 线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的 多进程和多线程的使用场景 常用的线程模型 进程状态转换图 并发和并行 Linux虚拟内存空间 虚拟内存置换的方式 程序的内存结构 A* a &#x3D; new A; a-&gt;i &#x3D; 10; 在内核中">
+  <meta name="description" content="[TOC] 操作系统进程和线程基本概念  通信进程间通信 线程间通信 线程间同步方式   有进程后为什么需要线程 单核机器上写多线程程序是否考虑要加锁？ 线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的 多进程和多线程的使用场景 常用的线程模型 进程状态转换图 并发和并行 Linux虚拟内存空间 虚拟内存置换的方式 程序的内存结构 A* a &#x3D; new A; a-&gt;i &#x3D; 10">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机基础知识整理（一）">
 <meta property="og:url" content="https://suzannehuang.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="Suzanne的博客">
-<meta property="og:description" content="操作系统进程和线程基本概念  通信进程间通信 线程间通信 线程间同步方式   有进程后为什么需要线程 单核机器上写多线程程序是否考虑要加锁？ 线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的 多进程和多线程的使用场景 常用的线程模型 进程状态转换图 并发和并行 Linux虚拟内存空间 虚拟内存置换的方式 程序的内存结构 A* a &#x3D; new A; a-&gt;i &#x3D; 10; 在内核中">
+<meta property="og:description" content="[TOC] 操作系统进程和线程基本概念  通信进程间通信 线程间通信 线程间同步方式   有进程后为什么需要线程 单核机器上写多线程程序是否考虑要加锁？ 线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的 多进程和多线程的使用场景 常用的线程模型 进程状态转换图 并发和并行 Linux虚拟内存空间 虚拟内存置换的方式 程序的内存结构 A* a &#x3D; new A; a-&gt;i &#x3D; 10">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191445584.png">
@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200429238.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200455145.png">
 <meta property="article:published_time" content="2020-11-16T16:16:54.000Z">
-<meta property="article:modified_time" content="2020-11-21T11:14:29.584Z">
+<meta property="article:modified_time" content="2020-11-28T09:33:04.354Z">
 <meta property="article:author" content="Suzanne">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="操作系统">
@@ -200,7 +200,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png" alt="image-20201109191155712"></p>
+        <p>[TOC]</p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png" alt="image-20201109191155712"></p>
 <p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191445584.png" alt="image-20201109191445584"></p>
 <h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><h4 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193110806.png" alt="image-20201109193110806"></p>
 <h4 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193150619.png" alt="image-20201109193150619"></p>
