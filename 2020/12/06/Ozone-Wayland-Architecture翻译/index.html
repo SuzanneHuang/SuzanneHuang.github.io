@@ -6,20 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://suzannehuang.github.io">
-  <title>build asan for arm target | Suzanne的博客</title>
+  <title>Ozone-Wayland Architecture翻译 | Suzanne的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。 编译过程下载源码1234567# cd somewhere# Get llvm, clang and compiler-rtsvn co http:&#x2F;&#x2F;llvm.org&#x2F;svn&#x2F;llvm-project&#x2F;llvm&#x2F;tru">
+  <meta name="description" content="原文链接：Ozone-Wayland Architecture - Google 文档 revision 1 (Jun 2014)概述Ozone-Wayland是Chromium Ozone的实现，用于支持Wayland图形系统。 现在可以使用Ozone在Wayland上启用基于Chromium &#x2F; Blink的不同项目，例如Chrome浏览器，Chrome OS，Crosswalk等。 本文档概">
 <meta property="og:type" content="article">
-<meta property="og:title" content="build asan for arm target">
-<meta property="og:url" content="https://suzannehuang.github.io/2020/09/04/build-asan-for-arm-target/index.html">
+<meta property="og:title" content="Ozone-Wayland Architecture翻译">
+<meta property="og:url" content="https://suzannehuang.github.io/2020/12/06/Ozone-Wayland-Architecture%E7%BF%BB%E8%AF%91/index.html">
 <meta property="og:site_name" content="Suzanne的博客">
-<meta property="og:description" content="前言由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。 编译过程下载源码1234567# cd somewhere# Get llvm, clang and compiler-rtsvn co http:&#x2F;&#x2F;llvm.org&#x2F;svn&#x2F;llvm-project&#x2F;llvm&#x2F;tru">
+<meta property="og:description" content="原文链接：Ozone-Wayland Architecture - Google 文档 revision 1 (Jun 2014)概述Ozone-Wayland是Chromium Ozone的实现，用于支持Wayland图形系统。 现在可以使用Ozone在Wayland上启用基于Chromium &#x2F; Blink的不同项目，例如Chrome浏览器，Chrome OS，Crosswalk等。 本文档概">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-04T13:29:00.000Z">
-<meta property="article:modified_time" content="2020-09-14T09:26:10.875Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image002.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image004.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image006.gif">
+<meta property="article:published_time" content="2020-12-06T15:42:40.000Z">
+<meta property="article:modified_time" content="2020-12-06T15:44:23.243Z">
 <meta property="article:author" content="Suzanne">
-<meta property="article:tag" content="cross compile">
+<meta property="article:tag" content="chromium">
+<meta property="article:tag" content="wayland">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image002.gif">
   
     <link rel="alternative" href="/atom.xml" title="Suzanne的博客" type="application/atom+xml">
   
@@ -147,42 +152,45 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-build-asan-for-arm-target" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Ozone-Wayland-Architecture翻译" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      build asan for arm target
+      Ozone-Wayland Architecture翻译
     </h1>
   
 
         
-        <a href="/2020/09/04/build-asan-for-arm-target/" class="archive-article-date">
-  	<time datetime="2020-09-04T13:29:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
+        <a href="/2020/12/06/Ozone-Wayland-Architecture%E7%BF%BB%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2020-12-06T15:42:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。</p>
-<h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> somewhere</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Get llvm, clang and compiler-rt</span></span><br><span class="line">svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm</span><br><span class="line">cd llvm</span><br><span class="line">R=$(svn info | grep Revision: | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">(cd tools &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
-
-<p>To switch your checkout to read-write mode:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CNAME=your_name_here</span><br><span class="line">cd llvm</span><br><span class="line">svn switch --relocate http://llvm.org/svn/llvm-project/llvm/trunk https://$CNAME@llvm.org/svn/llvm-project/llvm/trunk</span><br><span class="line">(cd tools &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/cfe/trunk https://$CNAME@llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/compiler-rt/trunk https://$CNAME@llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
-
-<h4 id="交叉编译"><a href="#交叉编译" class="headerlink" title="交叉编译"></a>交叉编译</h4><p>首先进入源码里compiler-rt所在同级目录，创建asan_build目录。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCOMPILER_RT_BUILD_BUILTINS=ON -DCOMPILER_RT_BUILD_SANITIZERS=ON -DCOMPILER_RT_BUILD_XRAY=ON -DCOMPILER_RT_BUILD_LIBFUZZER=ON -DCOMPILER_RT_BUILD_PROFILE=ON -DCMAKE_SYSROOT=/home/core/toolchain/arm-2019.09/arm-linux-gnueabi/libc/ -DCMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN=/home/core/toolchain/arm-2019.09 -DCMAKE_ASM_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON -DCMAKE_C_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-g++ ../compiler-rt/</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-
-<p>编译成功，可以看到lib/linux/下有asan相关的库。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">clang_rt.crtbegin-arm.o          libclang_rt.cfi-arm.a                libclang_rt.scudo_minimal-arm.so         libclang_rt.ubsan_standalone_cxx-arm.a</span><br><span class="line">clang_rt.crtend-arm.o            libclang_rt.cfi_diag-arm.a           libclang_rt.stats-arm.a                  libclang_rt.ubsan_standalone_cxx-arm.a.syms</span><br><span class="line">libclang_rt.asan-arm.a           libclang_rt.lsan-arm.a               libclang_rt.stats_client-arm.a           libclang_rt.xray-arm.a</span><br><span class="line">libclang_rt.asan-arm.a.syms      libclang_rt.profile-arm.a            libclang_rt.ubsan_minimal-arm.a          libclang_rt.xray-basic-arm.a</span><br><span class="line">libclang_rt.asan-arm.so          libclang_rt.scudo-arm.a              libclang_rt.ubsan_minimal-arm.a.syms     libclang_rt.xray-fdr-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a       libclang_rt.scudo-arm.so             libclang_rt.ubsan_minimal-arm.so         libclang_rt.xray-profiling-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a.syms  libclang_rt.scudo_cxx-arm.a          libclang_rt.ubsan_standalone-arm.a</span><br><span class="line">libclang_rt.asan-preinit-arm.a   libclang_rt.scudo_cxx_minimal-arm.a  libclang_rt.ubsan_standalone-arm.a.syms</span><br><span class="line">libclang_rt.builtins-arm.a       libclang_rt.scudo_minimal-arm.a      libclang_rt.ubsan_standalone-arm.so</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a target="_blank" rel="noopener" href="https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild">https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild</a></p>
-<p><a target="_blank" rel="noopener" href="https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html">https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html</a></p>
+        <p>原文链接：<a target="_blank" rel="noopener" href="https://docs.google.com/document/d/118Cmq_dedHOr4jfyVeE4jBhV7hXzhnaVCqegNMGano0/edit">Ozone-Wayland Architecture - Google 文档</a></p>
+<h3 id="revision-1-Jun-2014"><a href="#revision-1-Jun-2014" class="headerlink" title="revision 1 (Jun 2014)"></a>revision 1 (Jun 2014)</h3><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Ozone-Wayland是Chromium Ozone的实现，用于支持<a target="_blank" rel="noopener" href="http://wayland.freedesktop.org/">Wayland</a>图形系统。 现在可以使用Ozone在Wayland上启用基于Chromium / Blink的不同项目，例如Chrome浏览器，Chrome OS，<a target="_blank" rel="noopener" href="https://crosswalk-project.org/">Crosswalk</a>等。 本文档概述了其背后的架构。</p>
+<h4 id="Chromium-Ozone"><a href="#Chromium-Ozone" class="headerlink" title="Chromium Ozone"></a><strong>Chromium Ozone</strong></h4><p><a target="_blank" rel="noopener" href="http://www.chromium.org/developers/design-documents/ozone">Ozone</a> 是Chromium中的一组类，用于抽象Linux上的不同窗口系统。 它为构建Aura UI框架下的加速表面，输入设备分配和事件处理提供了抽象。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image002.gif" alt="img"></p>
+<p>以前，在Linux上使用Aura时，所有本机窗口系统代码（X11）都散布在整个Chromium树中。 现在的想法是，ozone将抽象本机代码，并且因为它是一组类工厂，所以它将切换到任何窗口系统。</p>
+<p>Chromium Ozone最大的优点之一是它允许从外部实现来自Chromium树的窗口系统细节，这很好，因为在很多情况下它是加载工作的位置。因此，ozone- wayland可以看作是铬的朋友项目，一个赋予另一个不同的特征。除了Ozone- wayland，还有不同的[ozone实现](<a target="_blank" rel="noopener" href="http://www.chromium.org/developers/design-documents/ozone#">http://www.chromium.org/developers/design-documents/ozone#</a> toc -Ozone- platform)，比如KMS/DRM, caca等等。下图显示了ozone的详细结构:<img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image004.gif" alt="img"></p>
+<h3 id="图形，窗口和渲染"><a href="#图形，窗口和渲染" class="headerlink" title="图形，窗口和渲染"></a>图形，窗口和渲染</h3><p>简而言之，Ozone-Wayland中的图形操作与Aura / Linux上的Chromium并没有太大区别，但是具有不同的窗口系统，即Wayland。截至2014年6月，Ozone-Wayland仅支持通过EGL进行加速绘图（尽管可以实施，但软件绘图不在我们的议程中）。 Ozone-Wayland加载OpenGL ES 2.0库实现（“ libGLESv2.so.2”），供Chromium内部使用它进行绘图。在“桌面光环(desktop aura)”（Chrome浏览器，content_shell等）和“全屏光环(fullscreen aura)”（ChromeOS）目标中，大多数情况下，整个界面只使用一个表面(surface)。表面创建是由Ozone后端实现处理的，在Ozone-Wayland通过Wayland协议发送到OpenGL库的情况下，将负责实际创建这些表面缓冲区。每个surface的单独处理程序然后被交给ozone处理程序，它现在可以处理surface的生命事件，例如对调整大小、定位或分层做出相应的反应。</p>
+<p>使用GPU进行的大多数复杂操作（如屏幕外渲染，WebGL和Canvas 2D）可与当前的Ozone-Wayland实现一起使用。 通过VAAPI（“ libva”）对硬件加速视频解码的初步支持已经到位，我们将在未来几天内继续完善它。</p>
+<h3 id="输入处理"><a href="#输入处理" class="headerlink" title="输入处理"></a>输入处理</h3><p>诸如鼠标，触摸，键盘等输入事件在Wayland合成器中生成，并通过Wayland协议发送到Ozone-Wayland。 Ozone-Wayland依次将这些Wayland本地输入事件转换为Chromium类型（ui :: Event）并分派给Aura。</p>
+<p>简而言之，Ozone-Wayland实现了以下功能：</p>
+<p>●    <strong>Cursors</strong>: 当 a pointer enters a surface，Wayland不会自动更改指针图像，因此Ozone-Wayland会根据运动事件或指针焦点来设置所需的光标。</p>
+<p>●    <strong>Keyboard Mapping:</strong> 通过X键盘扩展名发生 (<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/X_keyboard_extension">XKB</a>)</p>
+<p>●    <strong>Virtual Keyboard</strong> (VKB) support</p>
+<p>●    <strong>Input Methods</strong></p>
+<h4 id="Ozone-Wayland-and-多进程架构"><a href="#Ozone-Wayland-and-多进程架构" class="headerlink" title="Ozone-Wayland and 多进程架构"></a><strong>Ozone-Wayland and 多进程架构</strong></h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/clip_image006.gif" alt="img"></p>
+<p>上面的这张图显示了chromium是如何在wayland的Ozone-wayland中工作的。</p>
+<p>Chromium有三种重要的进程类型:浏览器进程、渲染进程和GPU进程:浏览器进程是运行UI、管理标签和处理HTTP请求/响应的进程。此外，在Chromium中有多个呈现过程来解析HTML文档、运行JavaScript和呈现web页面。更多关于Chromium多进程架构的细节可以在这里找到(<a target="_blank" rel="noopener" href="http://www.chromium.org/developers/design-documents/multiprocess-architecture)%E3%80%82Chromium%E4%B9%9F%E6%9C%89%E4%B8%80%E4%B8%AA%E5%8D%95%E4%B8%80%E7%9A%84GPU%E8%BF%9B%E7%A8%8B%EF%BC%8C%E5%85%B6%E4%B8%ADGPU%E5%8A%A0%E9%80%9F%E6%93%8D%E4%BD%9C%E8%A2%AB%E5%8F%91%E5%B8%83%E5%88%B0%E5%9B%BE%E5%BD%A2%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%9C%A8ozone-Wayland%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E4%B8%8EWayland">http://www.chromium.org/developers/design-documents/multiprocess-architecture)。Chromium也有一个单一的GPU进程，其中GPU加速操作被发布到图形驱动程序，在ozone-Wayland的情况下，是一个与Wayland</a> compositor通信的<em>single</em> Wayland客户端。请注意，在Ozone-Wayland中，所有的窗口系统操作都是在连接到Wayland合成器之前在Chromium端多路复用到一个单一的Wayland客户端实例——其他方法更倾向于为每个浏览器进程使用多个客户端，或者实现“迷你Wayland合成器”方法。Ozone-Wayland这样做并不是为了方便。但是，我们当前的方法在输入方面确实增加了不必要的开销。我们在GPU进程中接收来自Wayland的输入回调，并通过IPC发送到浏览器进程，理想情况下我们希望在浏览器进程中直接处理回调。不知道如何用目前的Wayland协议解决这个问题。</p>
+<p><strong>Ozone Channel and Host</strong>: </p>
+<p>Gpu进程具有OzoneChannel对象，该对象管理与Browser进程的通信。 浏览器进程维护一个相应的OzoneChannelHost。 我们使用现有的Chromium IPC系统在浏览器和GPU进程之间发送和接收消息（与表面和输入相关）。 OzoneChannelHost处理从GPU进程发送的任何输入或表面事件，即键盘，鼠标，触摸，窗口调整大小。 另外，OzoneChannel处理从浏览器进程发送的与小部件和IME状态有关的消息。</p>
 
       
 
@@ -196,7 +204,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cross compile</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">chromium</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">wayland</a>
         		</li>
       		
 		</ul>
@@ -215,15 +227,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          解决.sh: Permission denied
-        
-      </div>
-    </a>
   
+    <a href="/2020/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式学习（一）</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -248,7 +256,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">编译过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%BA%90%E7%A0%81"><span class="toc-number">2.1.</span> <span class="toc-text">下载源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91"><span class="toc-number">2.2.</span> <span class="toc-text">交叉编译</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">参考链接</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#revision-1-Jun-2014"><span class="toc-number">1.</span> <span class="toc-text">revision 1 (Jun 2014)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Chromium-Ozone"><span class="toc-number">2.1.</span> <span class="toc-text">Chromium Ozone</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%EF%BC%8C%E7%AA%97%E5%8F%A3%E5%92%8C%E6%B8%B2%E6%9F%93"><span class="toc-number">3.</span> <span class="toc-text">图形，窗口和渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%A4%84%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">输入处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Ozone-Wayland-and-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">Ozone-Wayland and 多进程架构</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
