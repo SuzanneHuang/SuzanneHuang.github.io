@@ -147,6 +147,217 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-证书相关知识总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/09/%E8%AF%81%E4%B9%A6%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">证书相关知识总结</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/09/%E8%AF%81%E4%B9%A6%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2021-01-09T12:20:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="从HTTP到HTTPS"><a href="#从HTTP到HTTPS" class="headerlink" title="从HTTP到HTTPS"></a>从HTTP到HTTPS</h2><p>HTTP的全称是HyperText Transfer Protocol ，叫做超文本传输协议。可以看下图，HTTP的存在一些安全问题：</p>
+<p>1）数据没有加密</p>
+<p>2）数据易篡改</p>
+<p>3）无法验证身份</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109202216848.png" alt="image-20210109202216848"></p>
+<p>不仅是HTTP，整个互联网的信息安全都会面临这些问题，对于这些问题，有对应的密码技术可以解决。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203111314.png" alt="image-20210109203111314"></p>
+<h2 id="对称密码"><a href="#对称密码" class="headerlink" title="对称密码"></a>对称密码</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203213464.png" alt="image-20210109203213464"></p>
+<p>密文=E（明文，算法，密钥）</p>
+<p>明文=D（密文，算法，密钥）</p>
+<p>对称密码主要用于加密和解密。</p>
+<h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203324891.png" alt="image-20210109203324891"></p>
+<p>公开密钥算法可以用于加密解密、密钥协商、数字签名。</p>
+<p>公开密钥算法的密钥是一对密钥，分别是公钥和私钥。私钥只有密钥对的生成者持有，而公钥是可以</p>
+<p>公开的，任何人都能拿到公钥。</p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>通信双方无法确认对方的身份，也就不能进行身份验证，为了防止通信事后的否认，可以用数字签名</p>
+<p>技术。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203427328.png" alt="image-20210109203427328"></p>
+<p>RSA签名生成</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203454461.png" alt="image-20210109203454461"></p>
+<p>RSA签名验证</p>
+<h1 id="证书介绍"><a href="#证书介绍" class="headerlink" title="证书介绍"></a>证书介绍</h1><h2 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h2><p>为了确保机密性我们需要密钥，为了解决密钥的配送问题我们又需要公钥，为了防止公钥被伪造的问题我们又需要证书。</p>
+<p>HTTPS中用的是X.509标准证书，用ASN.1标准来描述X.509标准证书：</p>
+<p>X.509标准证书结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Certificate ::&#x3D; SEQUENCE &#123; </span><br><span class="line">    	tbsCertificate     TBSCertificate,                                       	</span><br><span class="line">    	signatureAlgorithm  AlgorithmIdentifier,              	</span><br><span class="line">    	signature 	     BIT STRING </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>TBSCertificate结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">TBSCertificate ::&#x3D; SEQUENCE &#123; </span><br><span class="line">	version [0] Version DEFAULT v1, </span><br><span class="line">	serialNumber CertificateSerialNumber, </span><br><span class="line">	signature AlgorithmIdentifier, </span><br><span class="line">	issuer Name, </span><br><span class="line">	validity Validity, </span><br><span class="line">	subject Name, </span><br><span class="line">	subjectPublicKeyInfo SubjectPublicKeyInfo, </span><br><span class="line">	issuerUniqueID [1] IMPLICIT UniqueIdentifier OPTIONAL, </span><br><span class="line">			-- If present, version MUST be v2 or v3 </span><br><span class="line">	subjectUniqueID [2] IMPLICIT UniqueIdentifier OPTIONAL, </span><br><span class="line">			-- If present, version MUST be v2 or v3 </span><br><span class="line">	extensions [3] Extensions OPTIONAL </span><br><span class="line">			-- If present, version MUST be v3– </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="证书分类"><a href="#证书分类" class="headerlink" title="证书分类"></a>证书分类</h2><p>根据审核的宽松程度分为以下三类：</p>
+<p>1、DV证书：DV证书的审核时间会非常快，一般适用于个人网站。</p>
+<p>2、OV证书：一般来说，企业和政府机构一般会申请OV证书，由于审核申请者的身份需要时间，申请OV证书完成的时间比DV证书申请完成的时间要长。</p>
+<p>3、EV证书：一般来说，银行、电商企业、政府机构会申请EV证书，申请EV证书完成的时间比OV证书申请完成的时间要长。</p>
+<p>根据域名分为以下四类：</p>
+<p>1、单域名证书</p>
+<p>2、泛域名证书：www1.example.com、www2.example.com</p>
+<p>3、SAN（Subject Alternative Names）证书：<a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a>、<a target="_blank" rel="noopener" href="http://www.example.cn/">www.example.cn</a></p>
+<p>4、SAN范域名证书：<a target="_blank" rel="noopener" href="http://www.example.com、www.example.cn、*.example.org/">www.example.com</a><a target="_blank" rel="noopener" href="http://www.example.com、www.example.cn、*.example.org/">、</a><a target="_blank" rel="noopener" href="http://www.example.com、www.example.cn、*.example.org/">www.example.cn</a><a target="_blank" rel="noopener" href="http://www.example.com、www.example.cn、*.example.org/">、*</a><a target="_blank" rel="noopener" href="http://www.example.com、www.example.cn、*.example.org/">.example.org</a></p>
+<h2 id="证书链"><a href="#证书链" class="headerlink" title="证书链"></a>证书链</h2><p>证书信任链的终点就是Root CA的证书，他是自己给自己做数字签名，用自己的公钥对证书做数字签名校验，这类证书叫做自签名证书。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109203958653.png" alt="image-20210109203958653"></p>
+<h2 id="服务器实体证书的校验"><a href="#服务器实体证书的校验" class="headerlink" title="服务器实体证书的校验"></a>服务器实体证书的校验</h2><p>浏览器首先根据X.509标准解析服务器实体证书，进行如下校验：</p>
+<p>（1）浏览器访问的域名是不是与证书使用者可选名称（SAN）扩展包含的域名匹配，如果不匹配，校验失败。</p>
+<p>（2）日期校验，证书包含有效期，生效时间位于{notBefore, notAfter}区间，如果证书过期，校验失败。</p>
+<p>（3）证书扩展校验，如果扩展Critical被标识为True，客户端必须正确处理该扩展，否则校验失败。</p>
+<p>（4）对于服务器实体证书来说，其包含了一个公开密钥算法的公钥，需要校验该公钥的用途。校验方法就是判断密钥用法（Key Usage）扩展，该扩展对应的值如果不包含数字签名（Digital Signature）和密钥协商（Key Encipherment），校验失败。</p>
+<h2 id="中间证书的校验"><a href="#中间证书的校验" class="headerlink" title="中间证书的校验"></a><strong>中间证书的校验</strong></h2><p>和服务器实体证书一样，每个中间证书也要进行校验。</p>
+<p>（1）日期校验，校验证书有效期。</p>
+<p>（2）证书扩展Critical如果标识为True，必须校验。</p>
+<p>（3）中间证书也包含一个公钥，需要校验该公钥的用途，校验方法就是判断密钥用法</p>
+<p>（Key Usage）扩展，该扩展对应的值如果不包含Digital Signature（数字签名）、</p>
+<p>Certificate Sign（签名证书）、CRL Sign（签署CRL），校验失败。</p>
+<p>（4）校验基础约束（basic constraints）扩展，校验中间证书是否能够签发证书，</p>
+<p>如果不允许签发，校验失败。</p>
+<h2 id="CRL"><a href="#CRL" class="headerlink" title="CRL"></a>CRL</h2><p>由于某些原因，仅仅校验服务器实体证书并不能确定服务器实体的身份，需要通过一种机制校验</p>
+<p>证书的吊销状态，如果证书处于吊销状态，表明服务器实体身份校验失败。吊销最主要的原因是</p>
+<p>服务器实体发现证书对应的密钥对（主要是私钥）被泄露了。</p>
+<p>有两种机制能够完成该工作，分别是CRL（Certificate Revocation List，证书吊销列表）和OCSP。</p>
+<p>CRL。</p>
+<p>CRL是一个文件，和证书一样，也是一个结构化文件，每个CA机构将所有的吊销证书（由其签发的）</p>
+<p>集成在一个文件中，这就是CRLs（Certificate RevocationLists）。CRLs相当于一个黑名单，包含</p>
+<p>了所有被吊销服务器实体证书的序列号和吊销原因，如果一个待校验服务器实体证书的序列号能够</p>
+<p>匹配CRLs，表示该证书被吊销了。</p>
+<h2 id="OpenSSL管理证书"><a href="#OpenSSL管理证书" class="headerlink" title="OpenSSL管理证书"></a><strong>OpenSSL管理证书</strong></h2><p># PEM格式转换为DER格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl x509-in cert.pem -out cert.der -outform DER</span></span><br></pre></td></tr></table></figure>
+
+<p># DER格式转换为PEM格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl x509-in cert.der -inform DER -out cert.pem -outform PEM</span></span><br></pre></td></tr></table></figure>
+
+<p># PEM格式转换成PKCS#12格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl pkcs12 -<span class="built_in">export</span> -out cert.pfx -inkey privkey.pem -<span class="keyword">in</span> cert.pem -certfile chain.pem</span></span><br></pre></td></tr></table></figure>
+
+<p># 导出密钥对</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl pkcs12 -<span class="keyword">in</span> cert.pfx -nodes -nocerts -out new_privkey.pem</span></span><br></pre></td></tr></table></figure>
+
+<p># 导出服务器实体证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl pkcs12 -<span class="keyword">in</span> cert.pfx -nodes -clcerts -out new_cert.pem</span></span><br></pre></td></tr></table></figure>
+
+<p># 导出中间证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl pkcs12 -<span class="keyword">in</span> cert.pfx -nodes -cacerts -out new_chain.pem</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SSL-TLS"><a href="#SSL-TLS" class="headerlink" title="SSL/TLS"></a>SSL/TLS</h1><p>SSL（Secure Socket Layer，安全套接层）与TLS（Transport Layer Security，传输层安全）是不同的，TLS相当于是SSL的后续版本。</p>
+<p>SSL/TLS是世界上应用最广泛的密码通信方法，学习SSL/TLS最好的方法之一就是阅读RFC文档。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109204829122.png" alt="image-20210109204829122"></p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109204847547.png" alt="image-20210109204847547"></p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109204900496.png" alt="image-20210109204900496"></p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109204921971.png" alt="image-20210109204921971"></p>
+<h2 id="TLS握手协议"><a href="#TLS握手协议" class="headerlink" title="TLS握手协议"></a>TLS握手协议</h2><p>  TLS协议子协议关系图：</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109205027507.png" alt="image-20210109205027507"></p>
+<p>TLS握手协议：</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109205046116.png" alt="image-20210109205046116"></p>
+<h1 id="Chromium中代码"><a href="#Chromium中代码" class="headerlink" title="Chromium中代码"></a>Chromium中代码</h1><h2 id="服务器证书校验"><a href="#服务器证书校验" class="headerlink" title="服务器证书校验"></a>服务器证书校验</h2><p>在Chromium v47上，服务器证书校验代码在 net/cert/cert_verify_proc_openssl.cc</p>
+<p>校验函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X509_verify_cert(ctx.get())</span><br></pre></td></tr></table></figure>
+
+<p>在Chromium v73上，服务器证书校验代码在 net/cert/cert_verify_proc_nss.cc</p>
+<p>校验函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SECStatus status =PKIXVerifyCert(cert_handle, check_revocation, <span class="literal">false</span>, <span class="literal">NULL</span>, <span class="number">0</span>, trust_anchors.get(), &amp;crlset_callback, cvout);</span><br></pre></td></tr></table></figure>
+
+<h2 id="客户端证书处理"><a href="#客户端证书处理" class="headerlink" title="客户端证书处理"></a>客户端证书处理</h2><p>下面这个图是Chromium v47的版本的相关类图，可以看到用的是OpenSSL，在更改版本的Chromium浏览器中，已经改成了NSS处理证书。</p>
+<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20210109205407397.png" alt="image-20210109205407397"></p>
+<h1 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h1><h2 id="Linux证书管理"><a href="#Linux证书管理" class="headerlink" title="Linux证书管理"></a>Linux证书管理</h2><p>在Linux上，Chromium使用<a target="_blank" rel="noopener" href="https://wiki.mozilla.org/NSS_Shared_DB_And_LINUX">NSS Shared DB</a> 管理证书。</p>
+<ol>
+<li>工具获取： </li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libnss3-tools</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>工具使用：</li>
+</ol>
+<p>2.1. 列出所有证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil -d sql:$HOME/.pki/nssdb –L</span><br></pre></td></tr></table></figure>
+
+<p>2.2. 列出指定证书的具体信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil -d sql:$HOME/.pki/nssdb -L -n &lt;certificate nickname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.3. 向数据库中导入证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil -d sql:$HOME/.pki/nssdb -A -t &lt;TRUSTARGS&gt; -n &lt;certificate nickname&gt;  -i &lt;certificate filename&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.3.1. 导入root CA证书，其TRUSTARGS就是“C,,”</p>
+<p>2.3.2. 导入中间CA证书，其TRUSTARGS就是“,,”</p>
+<p>2.3.3. 导入自签名的服务器证书，其TRUSTARGS就是“P,,”</p>
+<p>2.4. 导入个人证书和私钥</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pk12util -d sql:$HOME/.pki/nssdb -i PKCS12_file.p12</span><br></pre></td></tr></table></figure>
+
+<p>这里的TRUSTARGS被默认设置为“u,u,u”</p>
+<p>2.5. 删除证书</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil -d sql:$HOME/.pki/nssdb -D -n &lt;certificate nickname&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关学习工具"><a href="#相关学习工具" class="headerlink" title="相关学习工具"></a>相关学习工具</h2><p>1、在线网站：</p>
+<p>SSL Server Test：<a target="_blank" rel="noopener" href="https://www.ssllabs.com/ssltest">https://www.ssllabs.com/ssltest</a></p>
+<p>SSL Client Test：<a target="_blank" rel="noopener" href="https://clienttest.ssllabs.com:8443/ssltest/viewMyClient.html">https://clienttest.ssllabs.com:8443/ssltest/viewMyClient.html</a></p>
+<p>2、OpenSSL工具集：</p>
+<p> $ openssl s_client -connect <a target="_blank" rel="noopener" href="http://www.example.com:443/">www.example.com:443</a></p>
+<p>该命令可以了解整个HTTPS的交互。</p>
+<p>3、Wireshark、tcpdump等抓包工具：</p>
+<p>SSL/TLS的几个子协议特别是握手协议内容是明文传输的，所以可以通过抓包分析其过程。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">HTTPS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">证书</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-building-weston-on-ubuntu" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -958,91 +1169,10 @@
 
 
   
-    <article id="post-build-asan-for-arm-target" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/04/build-asan-for-arm-target/">build asan for arm target</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/04/build-asan-for-arm-target/" class="archive-article-date">
-  	<time datetime="2020-09-04T13:29:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。</p>
-<h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> somewhere</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Get llvm, clang and compiler-rt</span></span><br><span class="line">svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm</span><br><span class="line">cd llvm</span><br><span class="line">R=$(svn info | grep Revision: | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">(cd tools &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
-
-<p>To switch your checkout to read-write mode:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CNAME=your_name_here</span><br><span class="line">cd llvm</span><br><span class="line">svn switch --relocate http://llvm.org/svn/llvm-project/llvm/trunk https://$CNAME@llvm.org/svn/llvm-project/llvm/trunk</span><br><span class="line">(cd tools &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/cfe/trunk https://$CNAME@llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/compiler-rt/trunk https://$CNAME@llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
-
-<h4 id="交叉编译"><a href="#交叉编译" class="headerlink" title="交叉编译"></a>交叉编译</h4><p>首先进入源码里compiler-rt所在同级目录，创建asan_build目录。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCOMPILER_RT_BUILD_BUILTINS=ON -DCOMPILER_RT_BUILD_SANITIZERS=ON -DCOMPILER_RT_BUILD_XRAY=ON -DCOMPILER_RT_BUILD_LIBFUZZER=ON -DCOMPILER_RT_BUILD_PROFILE=ON -DCMAKE_SYSROOT=/home/core/toolchain/arm-2019.09/arm-linux-gnueabi/libc/ -DCMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN=/home/core/toolchain/arm-2019.09 -DCMAKE_ASM_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON -DCMAKE_C_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-g++ ../compiler-rt/</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-
-<p>编译成功，可以看到lib/linux/下有asan相关的库。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">clang_rt.crtbegin-arm.o          libclang_rt.cfi-arm.a                libclang_rt.scudo_minimal-arm.so         libclang_rt.ubsan_standalone_cxx-arm.a</span><br><span class="line">clang_rt.crtend-arm.o            libclang_rt.cfi_diag-arm.a           libclang_rt.stats-arm.a                  libclang_rt.ubsan_standalone_cxx-arm.a.syms</span><br><span class="line">libclang_rt.asan-arm.a           libclang_rt.lsan-arm.a               libclang_rt.stats_client-arm.a           libclang_rt.xray-arm.a</span><br><span class="line">libclang_rt.asan-arm.a.syms      libclang_rt.profile-arm.a            libclang_rt.ubsan_minimal-arm.a          libclang_rt.xray-basic-arm.a</span><br><span class="line">libclang_rt.asan-arm.so          libclang_rt.scudo-arm.a              libclang_rt.ubsan_minimal-arm.a.syms     libclang_rt.xray-fdr-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a       libclang_rt.scudo-arm.so             libclang_rt.ubsan_minimal-arm.so         libclang_rt.xray-profiling-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a.syms  libclang_rt.scudo_cxx-arm.a          libclang_rt.ubsan_standalone-arm.a</span><br><span class="line">libclang_rt.asan-preinit-arm.a   libclang_rt.scudo_cxx_minimal-arm.a  libclang_rt.ubsan_standalone-arm.a.syms</span><br><span class="line">libclang_rt.builtins-arm.a       libclang_rt.scudo_minimal-arm.a      libclang_rt.ubsan_standalone-arm.so</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a target="_blank" rel="noopener" href="https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild">https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild</a></p>
-<p><a target="_blank" rel="noopener" href="https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html">https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cross compile</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    </nav>
   
 
 
@@ -1159,6 +1289,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">weston</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">HTTPS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">证书</a>
               </li>
             
             <div class="clearfix"></div>
