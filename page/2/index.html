@@ -147,6 +147,81 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-解决-sh-Permission-denied" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/">解决.sh: Permission denied</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/" class="archive-article-date">
+  	<time datetime="2020-09-08T08:23:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在嵌入式系统想要在/cusdata目录执行脚本时发现该目录没有执行权限，会提示Permission denied</p>
+<p>可是ls -l发现该目录和文件都是有执行权限的，查看/etc/scripts/mount_cusdata.sh发现</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -orw,,nosuid,nodev,noexec -t ext4 /dev/mmcblk0p23 /cusdata;</span><br></pre></td></tr></table></figure>
+
+<p>系统给/cusdata分区挂载时加入了nosuid,nodev,noexec这些挂载选项（目的是为了提高linux系统安全性），所以导致即使在该目录让脚本可执行，实际还是不能执行。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p> 编辑/etc/scripts/mount_cusdata.sh，去掉nosuid,nodev,noexec选项重启就ok了，还要注意关闭selinux，防止软链接之类的功能正常运转。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-build-asan-for-arm-target" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

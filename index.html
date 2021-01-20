@@ -147,6 +147,320 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-wayland协议标准翻译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/20/wayland%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86%E7%BF%BB%E8%AF%91/">wayland协议标准翻译</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/20/wayland%E5%8D%8F%E8%AE%AE%E6%A0%87%E5%87%86%E7%BF%BB%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2021-01-20T05:44:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>官网链接：</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html">https://wayland.freedesktop.org/docs/html/apa.html</a></p>
+<p>注意！！！只截取了部分接口内容，并不是全部！！！</p>
+<h1 id="鼠标相关："><a href="#鼠标相关：" class="headerlink" title="鼠标相关："></a>鼠标相关：</h1><h2 id="wl-seat-输入设备组"><a href="#wl-seat-输入设备组" class="headerlink" title="wl_seat - 输入设备组"></a>wl_seat - 输入设备组</h2><p>seat是一组键盘、指针和触摸设备。在启动过程中，或者热插拔这样的设备时，该对象作为全局对象发布。seat通常有一个指针，并保持键盘焦点和指针焦点。</p>
+<h3 id="由wl-seat提供的请求"><a href="#由wl-seat提供的请求" class="headerlink" title="由wl_seat提供的请求"></a>由wl_seat提供的请求</h3><h4 id="wl-seat-get-pointer-return-pointer-object"><a href="#wl-seat-get-pointer-return-pointer-object" class="headerlink" title="wl_seat::get_pointer - return pointer object"></a>wl_seat::get_pointer - return pointer object</h4><ul>
+<li><p>id</p>
+<p>id for the new <a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_pointer">wl_pointer</a> - seat pointer</p>
+</li>
+</ul>
+<p>提供的ID将初始化为这个seat的wl_pointer接口。</p>
+<p>此请求仅在seat具有指针能力或过去曾经具有指针能力时才生效。在从未拥有指针能力的seat上发出这个请求是违反协议的。在这种情况下，将发送missing_capability错误。</p>
+<h4 id="wl-seat-release-release-the-seat-object"><a href="#wl-seat-release-release-the-seat-object" class="headerlink" title="wl_seat::release - release the seat object"></a>wl_seat::release - release the seat object</h4><p>使用这个请求，客户端可以告诉服务器它不再使用seat对象。</p>
+<h3 id="由wl-seat提供的事件"><a href="#由wl-seat提供的事件" class="headerlink" title="由wl_seat提供的事件"></a>由wl_seat提供的事件</h3><h4 id="wl-seat-capabilities-seat-capabilities-changed"><a href="#wl-seat-capabilities-seat-capabilities-changed" class="headerlink" title="wl_seat::capabilities - seat capabilities changed"></a>wl_seat::capabilities - seat capabilities changed</h4><ul>
+<li><p>capabilities</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_seat-enum-capability">wl_seat::capability</a> (uint) - capabilities of the seat</p>
+</li>
+</ul>
+<p>每当seat获得或失去指针、键盘或触摸功能时，就会发出此消息。参数是一个capability enum，包含这个seat拥有的完整功能集。</p>
+<p>添加指针功能后，客户端可以使用wl_seat.get_pointer请求创建wl_pointer对象。 该对象将接收指针事件，直到将来删除该功能为止。</p>
+<p>删除指针功能后，客户端应使用wl_pointer.release请求销毁与删除该功能的seat相关联的wl_pointer对象。 在这些对象上将不再接收指针事件。</p>
+<p>在某些合成器中，如果seat恢复了指针功能，并且客户端具有先前获得的wl_pointer对象（版本为4或更低），则该对象可能会再次开始发送指针事件。 这种行为被认为是对预期行为的误解，客户端不得依赖该行为。 如果版本5或更高版本的wl_pointer对象在最近的事件通知客户端增加的指针功能之前创建，则不得发送事件。</p>
+<p>上面的行为也分别适用于具有键盘和触摸功能的wl_keyboard和wl_touch。</p>
+<h4 id="wl-seat-name-unique-identifier-for-this-seat"><a href="#wl-seat-name-unique-identifier-for-this-seat" class="headerlink" title="wl_seat::name - unique identifier for this seat"></a>wl_seat::name - unique identifier for this seat</h4><ul>
+<li><p>name</p>
+<p>string - seat identifier</p>
+</li>
+</ul>
+<p>在多seat配置中，客户端可以使用它来帮助识别seat代表的物理设备。 基于合成器使用的seat配置。</p>
+<h3 id="由wl-seat提供的枚举"><a href="#由wl-seat提供的枚举" class="headerlink" title="由wl_seat提供的枚举"></a>由wl_seat提供的枚举</h3><h4 id="wl-seat-capability-bitfield-seat-capability-bitmask"><a href="#wl-seat-capability-bitfield-seat-capability-bitmask" class="headerlink" title="wl_seat::capability - bitfield - seat capability bitmask"></a>wl_seat::capability - bitfield - seat capability bitmask</h4><p>这是这个seat具有的功能的掩码。 如果设置了成员，则该成员存在于seat上。</p>
+<ul>
+<li><p>pointer</p>
+<p>1 - the seat has pointer devices</p>
+</li>
+<li><p>keyboard</p>
+<p>2 - the seat has one or more keyboards</p>
+</li>
+<li><p>touch</p>
+<p>4 - the seat has touch devices</p>
+</li>
+</ul>
+<h4 id="wl-seat-error-wl-seat-error-values"><a href="#wl-seat-error-wl-seat-error-values" class="headerlink" title="wl_seat::error - wl_seat error values"></a>wl_seat::error - wl_seat error values</h4><p>这些错误可以在响应wl_seat请求时发出。</p>
+<ul>
+<li><p>missing_capability</p>
+<p>0 - get_pointer, get_keyboard or get_touch called on seat without the matching capability</p>
+</li>
+</ul>
+<h2 id="wl-surface-屏幕上的表面"><a href="#wl-surface-屏幕上的表面" class="headerlink" title="wl_surface - 屏幕上的表面"></a>wl_surface - 屏幕上的表面</h2><p>表面是一个矩形区域，可以显示在零个或多个输出上，并且可以由合成器决定任意显示多次。 他们可以显示wl_buffers，接收用户输入并定义局部坐标系。</p>
+<p>在使用buffer_transform或buffer_scale的情况下，以表面局部坐标描述表面的大小（及其上的相对位置），该坐标可能与像素内容的缓冲坐标不同。</p>
+<p>没有“角色”的表面是毫无用处的：合成器不知道在哪里，何时或如何呈现它。 该角色是wl_surface的目的。 角色示例包括指针的光标（由wl_pointer.set_cursor设置），拖动图标（wl_data_device.start_drag），子表面（wl_subcompositor.get_subsurface）和由shell协议定义的窗口（例如wl_shell.get_shell_surface）。</p>
+<p>一个表面在同一时间只能有一个角色。最初，wl_surface没有角色。一旦给了wl_surface一个角色，它就会在wl_surface对象的整个生命周期内被永久地设置。允许再次赋予当前角色，除非相关接口规范明确禁止。</p>
+<p>表面角色由其他接口（例如wl_pointer.set_cursor）中的请求赋予。 该请求应明确提及该请求赋予wl_surface一个角色。 通常，此请求还会创建一个代表角色的新协议对象，并向wl_surface添加其他功能。 当客户要销毁wl_surface时，他们必须销毁wl_surface之前的“角色对象”。</p>
+<p>销毁角色对象不会从wl_surface中删除该角色，但是可能会阻止wl_surface“扮演角色”。 例如，如果销毁wl_subsurface对象，则将取消为其创建对象的wl_surface的映射，并忘记其位置和z顺序。 允许再次为相同的wl_surface创建wl_subsurface，但不允许将wl_surface用作光标（光标是与sub-surface不同的角色，并且不允许角色切换）。</p>
+<h3 id="wl-surface提供的请求"><a href="#wl-surface提供的请求" class="headerlink" title="wl_surface提供的请求"></a>wl_surface提供的请求</h3><h4 id="wl-surface-destroy-delete-surface"><a href="#wl-surface-destroy-delete-surface" class="headerlink" title="wl_surface::destroy - delete surface"></a>wl_surface::destroy - delete surface</h4><p>删除表面并使它的对象ID无效。</p>
+<h4 id="wl-surface-attach-set-the-surface-contents"><a href="#wl-surface-attach-set-the-surface-contents" class="headerlink" title="wl_surface::attach - set the surface contents"></a>wl_surface::attach - set the surface contents</h4><ul>
+<li><p>buffer</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_buffer">wl_buffer</a> - buffer of surface contents</p>
+</li>
+<li><p>x</p>
+<p>int - surface-local x coordinate</p>
+</li>
+<li><p>y</p>
+<p>int - surface-local y coordinate</p>
+</li>
+</ul>
+<p>设置缓冲区作为此表面的内容。</p>
+<p>根据由逆buffer_transform和逆buffer_scale转换的缓冲区大小来计算表面的新大小。 这意味着在提交时，提供的缓冲区大小必须是buffer_scale的整数倍。 如果不是这种情况，则会发送invalid_size错误。</p>
+<p>x和y参数在表面局部坐标中指定新的暂挂缓冲区的左上角相对于当前缓冲区的左上角的位置。 换句话说，x和y结合新的表面尺寸定义了表面尺寸沿哪个方向变化。</p>
+<p>表面内容为双缓冲状态，请参见wl_surface.commit。</p>
+<p>初始表面内容为空； 没有内容。 wl_surface.attach将给定的wl_buffer分配为暂挂的wl_buffer。 wl_surface.commit使挂起的wl_buffer成为新的表面内容，并且表面的大小变为根据wl_buffer计算的大小，如上所述。 提交后，直到下一次附加之前，没有待处理的缓冲区。</p>
+<p>提交挂起的wl_buffer可使合成器读取wl_buffer中的像素。 在wl_surface.commit请求之后，合成器可以随时访问像素。 当合成器不再访问像素时，它将发送wl_buffer.release事件。 仅在收到wl_buffer.release之后，客户端才可以重用wl_buffer。 已被附加，然后被另一个附加而不是已提交的wl_buffer取代的wl_buffer将不会收到释放事件，并且不会被合成器使用。</p>
+<p>如果挂起的wl_buffer已被提交到多个wl_surface，则wl_buffer.release事件的传递将变得不确定。 在这种情况下，行为良好的客户端不应依赖wl_buffer.release事件。 或者，客户端可以从同一个后备存储中创建多个wl_buffer对象，或使用wp_linux_buffer_release。</p>
+<p>在wl_buffer.release之后销毁wl_buffer不会更改表面内容。 但是，如果客户端在收到wl_buffer.release事件之前销毁了wl_buffer，则表面内容立即变得不确定。</p>
+<p>如果使用空wl_buffer发送wl_surface.attach，则以下wl_surface.commit将删除表面内容。</p>
+<h4 id="wl-surface-damage-mark-part-of-the-surface-damaged"><a href="#wl-surface-damage-mark-part-of-the-surface-damaged" class="headerlink" title="wl_surface::damage - mark part of the surface damaged"></a>wl_surface::damage - mark part of the surface damaged</h4><ul>
+<li><p>x</p>
+<p>int - surface-local x coordinate</p>
+</li>
+<li><p>y</p>
+<p>int - surface-local y coordinate</p>
+</li>
+<li><p>width</p>
+<p>int - width of damage rectangle</p>
+</li>
+<li><p>height</p>
+<p>int - height of damage rectangle</p>
+</li>
+</ul>
+<p>此请求用于描述暂挂缓冲区与当前表面内容不同的区域，因此需要重新绘制曲面。 合成器将忽略掉在表面之外的部分损坏。</p>
+<p>损坏为双缓冲状态，请参阅wl_surface.commit。</p>
+<p>损坏矩形是在表面局部坐标中指定的，其中x和y指定损坏矩形的左上角。</p>
+<p>未决损害的初始值为空：无损害。 wl_surface.damage添加了未决损害：新的未决损害是旧的未决损害与给定矩形的并集。</p>
+<p>wl_surface.commit将未决损害指定为当前损害，并清除未决损害。 服务器在重新粉刷表面时会清除当前的损坏。</p>
+<p>注意！ 新客户不应使用此请求。 可以使用wl_surface.damage_buffer来发布损坏，而wl_surface.damage_buffer使用缓冲区坐标（buffer coordinates）而不是表面坐标（surface coordinates）。</p>
+<h4 id="wl-surface-commit-commit-pending-surface-state"><a href="#wl-surface-commit-commit-pending-surface-state" class="headerlink" title="wl_surface::commit - commit pending surface state"></a>wl_surface::commit - commit pending surface state</h4><p>表面状态（输入，不透明和损坏区域，连接的缓冲区等）是双缓冲的。 协议请求会修改挂起状态，与合成器正在使用的当前状态相反。 提交请求自动应用所有待处理状态，从而替换当前状态。 提交后，新的暂挂状态与每个相关请求的记录相同。</p>
+<p>提交时，将首先应用挂起的wl_buffer，然后再应用所有其他状态。 这意味着，除了wl_surface.attach本身以外，所有处于双缓冲状态的坐标都相对于即将使用的新wl_buffer。 如果没有待处理的wl_buffer，则坐标是相对于当前表面内容的。</p>
+<p>记录所有需要落实才能生效的请求，以影响双缓冲状态。</p>
+<p>其他接口可能会添加其他双缓冲表面状态。</p>
+<h3 id="wl-surface提供的枚举"><a href="#wl-surface提供的枚举" class="headerlink" title="wl_surface提供的枚举"></a>wl_surface提供的枚举</h3><h4 id="wl-surface-error-wl-surface-error-values"><a href="#wl-surface-error-wl-surface-error-values" class="headerlink" title="wl_surface::error - wl_surface error values"></a>wl_surface::error - wl_surface error values</h4><p>These errors can be emitted in response to wl_surface requests.</p>
+<ul>
+<li><p>invalid_scale</p>
+<p>0 - buffer scale value is invalid</p>
+</li>
+<li><p>invalid_transform</p>
+<p>1 - buffer transform value is invalid</p>
+</li>
+<li><p>invalid_size</p>
+<p>2 - buffer size is invalid</p>
+</li>
+</ul>
+<h2 id="wl-pointer-pointer-input-device"><a href="#wl-pointer-pointer-input-device" class="headerlink" title="wl_pointer - pointer input device"></a>wl_pointer - pointer input device</h2><p>wl_pointer接口表示一个或多个输入设备，例如鼠标，它控制seat的指针位置和指针焦点。</p>
+<p>wl_pointer接口为指针所在的表面生成运动、输入和离开事件，并为按钮按下、按钮释放和滚动生成按钮和轴事件。</p>
+<h3 id="wl-pointer提供的请求"><a href="#wl-pointer提供的请求" class="headerlink" title="wl_pointer提供的请求"></a>wl_pointer提供的请求</h3><h4 id="wl-pointer-set-cursor-set-the-pointer-surface"><a href="#wl-pointer-set-cursor-set-the-pointer-surface" class="headerlink" title="wl_pointer::set_cursor - set the pointer surface"></a>wl_pointer::set_cursor - set the pointer surface</h4><ul>
+<li><p>serial</p>
+<p>uint - serial number of the enter event</p>
+</li>
+<li><p>surface</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_surface">wl_surface</a> - pointer surface</p>
+</li>
+<li><p>hotspot_x</p>
+<p>int - surface-local x coordinate</p>
+</li>
+<li><p>hotspot_y</p>
+<p>int - surface-local y coordinate</p>
+</li>
+</ul>
+<p>设置指针表面，即包含指针图像(光标)的表面。这个请求将光标的角色赋予surface。如果surface已经有了另一个角色，它将引发一个协议错误。</p>
+<p>实际上，只有当该设备的指针焦点是请求客户端的表面之一，或者表面参数是当前指针表面时，光标才会发生变化。如果以前有一个与此请求一起设置的表面，那么它将被替换。如果surface为NULL，指针图像将被隐藏。</p>
+<p>参数hotspot_x和hotspot_y定义了指针表面相对于指针位置的位置。它的左上角总是位于(x, y) - (hotspot_x, hotspot_y)，其中(x, y)是指针位置的坐标，以表面局部坐标表示。</p>
+<p>在指向指针表面的surface.attach请求上，hotspot_x和hotspot_y通过传递给请求的x和y参数递减。 必须像往常一样通过wl_surface.commit确认连接。</p>
+<p>也可以通过将当前设置的指针表面传递给请求，并使用hotspot_x和hotspot_y的新值来更新热点。</p>
+<p>清除wl_surface的当前和挂起的输入区域，并忽略wl_surface.set_input_region，直到wl_surface不再用作光标。 当用作光标的操作结束时，当前和待处理的输入区域将变为未定义，并且wl_surface被取消映射。</p>
+<h4 id="wl-pointer-release-release-the-pointer-object"><a href="#wl-pointer-release-release-the-pointer-object" class="headerlink" title="wl_pointer::release - release the pointer object"></a>wl_pointer::release - release the pointer object</h4><p>使用此请求，客户端可以告诉服务器它将不再使用指针对象。</p>
+<p>该请求将销毁指针代理对象，因此客户端在使用此请求后不得再调用wl_pointer_destroy（）。</p>
+<h3 id="wl-pointer提供的事件"><a href="#wl-pointer提供的事件" class="headerlink" title="wl_pointer提供的事件"></a>wl_pointer提供的事件</h3><h4 id="wl-pointer-enter-enter-event"><a href="#wl-pointer-enter-enter-event" class="headerlink" title="wl_pointer::enter - enter event"></a>wl_pointer::enter - enter event</h4><ul>
+<li><p>serial</p>
+<p>uint - serial number of the enter event</p>
+</li>
+<li><p>surface</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_surface">wl_surface</a> - surface entered by the pointer</p>
+</li>
+<li><p>surface_x</p>
+<p>fixed - surface-local x coordinate</p>
+</li>
+<li><p>surface_y</p>
+<p>fixed - surface-local y coordinate</p>
+</li>
+</ul>
+<p>通知此seat的指针聚焦在某个表面上。</p>
+<p>当座位的焦点进入表面时，指针图像未定义，客户端应通过使用set_cursor请求设置适当的指针图像来响应此事件。</p>
+<h4 id="wl-pointer-leave-leave-event"><a href="#wl-pointer-leave-leave-event" class="headerlink" title="wl_pointer::leave - leave event"></a>wl_pointer::leave - leave event</h4><ul>
+<li><p>serial</p>
+<p>uint - serial number of the leave event</p>
+</li>
+<li><p>surface</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_surface">wl_surface</a> - surface left by the pointer</p>
+</li>
+</ul>
+<p>通知此seat的指针不再聚焦在某个表面上。</p>
+<p>离开通知在新焦点的进入通知之前发送。</p>
+<h4 id="wl-pointer-motion-pointer-motion-event"><a href="#wl-pointer-motion-pointer-motion-event" class="headerlink" title="wl_pointer::motion - pointer motion event"></a>wl_pointer::motion - pointer motion event</h4><ul>
+<li><p>time</p>
+<p>uint - timestamp with millisecond granularity</p>
+</li>
+<li><p>surface_x</p>
+<p>fixed - surface-local x coordinate</p>
+</li>
+<li><p>surface_y</p>
+<p>fixed - surface-local y coordinate</p>
+</li>
+</ul>
+<p>指针位置更改的通知。 参数surface_x和surface_y是相对于聚焦表面的位置。</p>
+<h4 id="wl-pointer-button-pointer-button-event"><a href="#wl-pointer-button-pointer-button-event" class="headerlink" title="wl_pointer::button - pointer button event"></a>wl_pointer::button - pointer button event</h4><ul>
+<li><p>serial</p>
+<p>uint - serial number of the button event</p>
+</li>
+<li><p>time</p>
+<p>uint - timestamp with millisecond granularity</p>
+</li>
+<li><p>button</p>
+<p>uint - button that produced the event</p>
+</li>
+<li><p>state</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_pointer-enum-button_state">wl_pointer::button_state</a> (uint) - physical state of the button</p>
+</li>
+</ul>
+<p>鼠标按钮单击并释放通知。</p>
+<p>点击的位置由上一个动作或输入事件给出。 time参数是具有毫秒粒度的时间戳，具有未定义的基数。</p>
+<p>该按钮是Linux内核的linux / input-event-codes.h头文件中定义的按钮代码，例如 BTN_LEFT。</p>
+<p>任何16位按钮代码值都保留用于将来添加到内核的事件代码列表中。 当前未定义高于0xFFFF的所有其他按钮代码，但可以在此协议的将来版本中使用。</p>
+<h4 id="wl-pointer-axis-axis-event"><a href="#wl-pointer-axis-axis-event" class="headerlink" title="wl_pointer::axis - axis event"></a>wl_pointer::axis - axis event</h4><ul>
+<li><p>time</p>
+<p>uint - timestamp with millisecond granularity</p>
+</li>
+<li><p>axis</p>
+<p><a target="_blank" rel="noopener" href="https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_pointer-enum-axis">wl_pointer::axis</a> (uint) - axis type</p>
+</li>
+<li><p>value</p>
+<p>fixed - length of vector in surface-local coordinate space</p>
+</li>
+</ul>
+<p>滚动和其他轴通知。</p>
+<p>对于滚动事件（垂直和水平滚动轴），value参数是矢量在与运动事件相同的坐标空间中沿着指定轴的长度，表示沿着指定轴的相对运动。</p>
+<p>对于支持不平行于轴运动的设备，将发出多轴事件。</p>
+<p>当适用时，例如对于触摸板，服务器可以选择在运动矢量等效于运动事件矢量的情况下发出滚动事件。</p>
+<p>如果适用，客户端可以相对于滚动距离转换其内容。</p>
+<h3 id="Enums-provided-by-wl-pointer"><a href="#Enums-provided-by-wl-pointer" class="headerlink" title="Enums provided by wl_pointer"></a>Enums provided by wl_pointer</h3><h4 id="wl-pointer-error"><a href="#wl-pointer-error" class="headerlink" title="wl_pointer::error"></a>wl_pointer::error</h4><ul>
+<li><p>role</p>
+<p>0 - given wl_surface has another role</p>
+</li>
+</ul>
+<h4 id="wl-pointer-button-state-physical-button-state"><a href="#wl-pointer-button-state-physical-button-state" class="headerlink" title="wl_pointer::button_state - physical button state"></a>wl_pointer::button_state - physical button state</h4><p>Describes the physical state of a button that produced the button event.</p>
+<ul>
+<li><p>released</p>
+<p>0 - the button is not pressed</p>
+</li>
+<li><p>pressed</p>
+<p>1 - the button is pressed</p>
+</li>
+</ul>
+<h4 id="wl-pointer-axis-axis-types"><a href="#wl-pointer-axis-axis-types" class="headerlink" title="wl_pointer::axis - axis types"></a>wl_pointer::axis - axis types</h4><p>Describes the axis types of scroll events.</p>
+<ul>
+<li><p>vertical_scroll</p>
+<p>0 - vertical axis</p>
+</li>
+<li><p>horizontal_scroll</p>
+<p>1 - horizontal axis</p>
+</li>
+</ul>
+<h4 id="wl-pointer-axis-source-axis-source-types"><a href="#wl-pointer-axis-source-axis-source-types" class="headerlink" title="wl_pointer::axis_source - axis source types"></a>wl_pointer::axis_source - axis source types</h4><p>描述轴事件的源类型。 这向客户指示了如何物理生成轴事件； 客户端可以相应地调整用户界面。 例如，来自“手指”源的滚动事件可以处于具有动力学滚动的平滑坐标空间中，而来自“车轮”源的滚动事件可以处于许多行的离散步骤中。</p>
+<p>“连续”轴源是一种在连续坐标空间中生成事件的设备，但使用的不是手指。 此源的一个示例是基于按钮的滚动，其中在按住按钮的同时，设备的垂直运动会转换为滚动事件。</p>
+<p>“车轮倾斜”轴源表示实际设备是车轮，但滚动事件不是由旋转引起的，而是车轮（通常是侧向）倾斜。</p>
+<ul>
+<li><p>wheel</p>
+<p>0 - a physical wheel rotation</p>
+</li>
+<li><p>finger</p>
+<p>1 - finger on a touch surface</p>
+</li>
+<li><p>continuous</p>
+<p>2 - continuous coordinate space</p>
+</li>
+<li><p>wheel_tilt</p>
+<p>3 - a physical wheel tilt</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">wayland</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-证书相关知识总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1068,81 +1382,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cross compile</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-解决-sh-Permission-denied" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/">解决.sh: Permission denied</a>
-    </h1>
-  
-
-        
-        <a href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/" class="archive-article-date">
-  	<time datetime="2020-09-08T08:23:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在嵌入式系统想要在/cusdata目录执行脚本时发现该目录没有执行权限，会提示Permission denied</p>
-<p>可是ls -l发现该目录和文件都是有执行权限的，查看/etc/scripts/mount_cusdata.sh发现</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -orw,,nosuid,nodev,noexec -t ext4 /dev/mmcblk0p23 /cusdata;</span><br></pre></td></tr></table></figure>
-
-<p>系统给/cusdata分区挂载时加入了nosuid,nodev,noexec这些挂载选项（目的是为了提高linux系统安全性），所以导致即使在该目录让脚本可执行，实际还是不能执行。</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p> 编辑/etc/scripts/mount_cusdata.sh，去掉nosuid,nodev,noexec选项重启就ok了，还要注意关闭selinux，防止软链接之类的功能正常运转。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
