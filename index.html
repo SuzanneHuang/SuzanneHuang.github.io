@@ -864,404 +864,6 @@
 
 
   
-    <article id="post-设计模式学习（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/">设计模式学习（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-11-28T10:48:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h1><h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><h3 id="1-3-模式结构"><a href="#1-3-模式结构" class="headerlink" title="1.3. 模式结构"></a>1.3. 模式结构</h3><p>简单工厂模式包含如下角色：</p>
-<ul>
-<li><p>Factory：工厂角色</p>
-<p>工厂角色负责实现创建所有实例的内部逻辑。</p>
-</li>
-<li><p>Product：抽象产品角色</p>
-<p>抽象产品角色是所创建的所有对象的父类，负责描述所有实例所共有的公共接口。</p>
-</li>
-<li><p>ConcreteProduct：具体产品角色</p>
-<p>具体产品角色是创建目标，所有创建的对象都充当这个角色的某个具体类的实例。</p>
-</li>
-</ul>
-<p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/SimpleFactory.jpg" alt="../_images/SimpleFactory.jpg"></p>
-<h3 id="1-4-时序图"><a href="#1-4-时序图" class="headerlink" title="1.4. 时序图"></a>1.4. 时序图</h3><p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/seq_SimpleFactory.jpg" alt="../_images/seq_SimpleFactory.jpg"></p>
-<h3 id="1-5-代码分析"><a href="#1-5-代码分析" class="headerlink" title="1.5. 代码分析"></a>1.5. 代码分析</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">//  Factory.cpp</span></span><br><span class="line"><span class="comment">//  Implementation of the Class Factory</span></span><br><span class="line"><span class="comment">//  Created on:      01-十月-2014 18:41:33</span></span><br><span class="line"><span class="comment">//  Original author: colin</span></span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Factory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ConcreteProductA.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ConcreteProductB.h&quot;</span></span></span><br><span class="line"><span class="function">Product* <span class="title">Factory::createProduct</span><span class="params">(<span class="built_in">string</span> proname)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( <span class="string">&quot;A&quot;</span> == proname )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;B&quot;</span> == proname)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>  <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><h3 id="2-3-模式结构"><a href="#2-3-模式结构" class="headerlink" title="2.3. 模式结构"></a>2.3. 模式结构</h3><p>工厂方法模式包含如下角色：</p>
-<ul>
-<li>Product：抽象产品</li>
-<li>ConcreteProduct：具体产品</li>
-<li>Factory：抽象工厂</li>
-<li>ConcreteFactory：具体工厂</li>
-</ul>
-<p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/FactoryMethod.jpg" alt="../_images/FactoryMethod.jpg"></p>
-<h3 id="2-4-时序图"><a href="#2-4-时序图" class="headerlink" title="2.4. 时序图"></a>2.4. 时序图</h3><p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/seq_FactoryMethod.jpg" alt="../_images/seq_FactoryMethod.jpg"></p>
-<h3 id="2-5-代码分析"><a href="#2-5-代码分析" class="headerlink" title="2.5. 代码分析"></a>2.5. 代码分析</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="comment">//  ConcreteFactory.cpp</span></span><br><span class="line"><span class="comment">//  Implementation of the Class ConcreteFactory</span></span><br><span class="line"><span class="comment">//  Created on:      02-十月-2014 10:18:58</span></span><br><span class="line"><span class="comment">//  Original author: colin</span></span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ConcreteFactory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ConcreteProduct.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">Product* <span class="title">ConcreteFactory::factoryMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span>  <span class="keyword">new</span> ConcreteProduct();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Factory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ConcreteFactory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Product.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Factory * fc = <span class="keyword">new</span> ConcreteFactory();</span><br><span class="line">	Product * prod = fc-&gt;factoryMethod();</span><br><span class="line">	prod-&gt;use();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">delete</span> fc;</span><br><span class="line">	<span class="keyword">delete</span> prod;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-6-模式分析"><a href="#2-6-模式分析" class="headerlink" title="2.6. 模式分析"></a>2.6. 模式分析</h3><p>工厂方法模式是简单工厂模式的进一步抽象和推广。由于使用了面向对象的多态性，工厂方法模式保持了简单工厂模式的优点，而且克服了它的缺点。在工厂方法模式中，核心的工厂类不再负责所有产品的创建，而是将具体创建工作交给子类去做。这个核心类仅仅负责给出具体工厂必须实现的接口，而不负责哪一个产品类被实例化这种细节，这使得工厂方法模式可以允许系统在不修改工厂角色的情况下引进新产品。</p>
-<h3 id="2-7-实例"><a href="#2-7-实例" class="headerlink" title="2.7. 实例"></a>2.7. 实例</h3><p>日志记录器</p>
-<p>某系统日志记录器要求支持多种日志记录方式，如文件记录、数据库记录等，且用户可以根据要求动态选择日志记录方式， 现使用工厂方法模式设计该系统。</p>
-<p>结构图：</p>
-<p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/loger.jpg" alt="../_images/loger.jpg"></p>
-<p>时序图：</p>
-<p><img src="https://design-patterns.readthedocs.io/zh_CN/latest/_images/seq_loger.jpg" alt="../_images/seq_loger.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算机基础知识整理（三）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89/">计算机基础知识整理（三）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-11-21T08:42:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div class="toc">
-
-<!-- toc -->
-
-<ul>
-<li><a href="#cao-zuo-xi-tong">操作系统</a><ul>
-<li><a href="#yong-hu-tai-he-nei-he-tai-de-qu-bie">用户态和内核态的区别</a></li>
-<li><a href="#ru-he-she-ji-server-shi-de-neng-gou-jie-shou-duo-ge-ke-hu-duan-de-qing-qiu">如何设计server，使得能够接收多个客户端的请求</a></li>
-<li><a href="#si-xun-huan-lai-lian-jie-shi-xin-jian-xian-cheng-de-fang-fa-xiao-lu-you-dian-di-zen-me-gai-jin">死循环+来连接时新建线程的方法效率有点低，怎么改进?</a></li>
-<li><a href="#zen-me-huan-xing-bei-zu-sai-de-socket-xian-cheng">怎么唤醒被阻塞的socket线程？</a></li>
-<li><a href="#ru-he-que-ding-dang-qian-xian-cheng-shi-fan-mang-huan-shi-zu-sai">如何确定当前线程是繁忙还是阻塞</a></li>
-<li><a href="#liang-ge-jin-cheng-fang-wen-lin-jie-qu-zi-yuan-hui-bu-hui-chu-xian-du-huo-de-zi-xuan-suo-de-qing-kuang">两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</a></li>
-<li><a href="#c-you-na-xie-suo">C++有哪些锁？</a></li>
-<li><a href="#si-suo-chan-sheng-de-bi-yao-tiao-jian">死锁产生的必要条件：</a></li>
-<li><a href="#nei-cun-yi-chu-he-nei-cun-xie-lou">内存溢出和内存泄漏</a></li>
-<li><a href="#xie-cheng">协程</a></li>
-<li><a href="#yuan-ma-dao-ke-zhi-xing-wen-jian-guo-cheng">源码到可执行文件过程</a></li>
-<li><a href="#jiang-shi-jin-cheng">僵尸进程</a></li>
-<li><a href="#5-chong-io-mo-xing">5种IO模型</a></li>
-<li><a href="#zen-me-shi-xian-xian-cheng-chi">怎么实现线程池</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-</div>
-
-
-
-<h1><span id="cao-zuo-xi-tong">操作系统</span></h1><h2><span id="yong-hu-tai-he-nei-he-tai-de-qu-bie">用户态和内核态的区别</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183736302.png" alt="image-20201121183736302"></p>
-<h2><span id="ru-he-she-ji-server-shi-de-neng-gou-jie-shou-duo-ge-ke-hu-duan-de-qing-qiu">如何设计server，使得能够接收多个客户端的请求</span></h2><p>多线程，线程池，io复用</p>
-<h2><span id="si-xun-huan-lai-lian-jie-shi-xin-jian-xian-cheng-de-fang-fa-xiao-lu-you-dian-di-zen-me-gai-jin">死循环+来连接时新建线程的方法效率有点低，怎么改进?</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121184126990.png" alt="image-20201121184126990"></p>
-<h2><span id="zen-me-huan-xing-bei-zu-sai-de-socket-xian-cheng">怎么唤醒被阻塞的socket线程？</span></h2><p>给阻塞时候缺少的资源</p>
-<h2><span id="ru-he-que-ding-dang-qian-xian-cheng-shi-fan-mang-huan-shi-zu-sai">如何确定当前线程是繁忙还是阻塞</span></h2><p>使用ps命令查看</p>
-<h2><span id="liang-ge-jin-cheng-fang-wen-lin-jie-qu-zi-yuan-hui-bu-hui-chu-xian-du-huo-de-zi-xuan-suo-de-qing-kuang">两个进程访问临界区资源，会不会出现都获得自旋锁的情况？</span></h2><p>单核cpu，并且开了抢占可以造成这种情况。</p>
-<h2><span id="c-you-na-xie-suo">C++有哪些锁？</span></h2><p>互斥锁 读写锁 自旋锁 条件变量</p>
-<h2><span id="si-suo-chan-sheng-de-bi-yao-tiao-jian">死锁产生的必要条件：</span></h2><p>1、资源不可被剥夺</p>
-<p>2、资源请求与保持：资源请求资源而阻塞时，对已获得的资源保持不放</p>
-<p>3、资源是互斥状态</p>
-<p> 4、循环等待</p>
-<h2><span id="nei-cun-yi-chu-he-nei-cun-xie-lou">内存溢出和内存泄漏</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121190504336.png" alt="image-20201121190504336"></p>
-<h2><span id="xie-cheng">协程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191822800.png" alt="image-20201121191822800"></p>
-<h2><span id="yuan-ma-dao-ke-zhi-xing-wen-jian-guo-cheng">源码到可执行文件过程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128164951043.png" alt="image-20201128164951043"></p>
-<h2><span id="jiang-shi-jin-cheng">僵尸进程</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128165652882.png" alt="image-20201128165652882"></p>
-<h2><span id="5-chong-io-mo-xing">5种IO模型</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170445945.png" alt="image-20201128170445945"></p>
-<h2><span id="zen-me-shi-xian-xian-cheng-chi">怎么实现线程池</span></h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201128170909754.png" alt="image-20201128170909754"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算机基础知识整理（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/">计算机基础知识整理（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-11-17T09:46:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="操作系统中的结构体对齐，字节对齐"><a href="#操作系统中的结构体对齐，字节对齐" class="headerlink" title="操作系统中的结构体对齐，字节对齐"></a>操作系统中的结构体对齐，字节对齐</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117200402383.png" alt="image-20201117200402383"></p>
-<h2 id="Linux的4种锁"><a href="#Linux的4种锁" class="headerlink" title="Linux的4种锁"></a>Linux的4种锁</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117203014079.png" alt="image-20201117203014079"></p>
-<h2 id="软链接和硬链接"><a href="#软链接和硬链接" class="headerlink" title="软链接和硬链接"></a>软链接和硬链接</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117205353128.png" alt="image-20201117205353128"></p>
-<h2 id="大端和小端"><a href="#大端和小端" class="headerlink" title="大端和小端"></a>大端和小端</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117210142148.png" alt="image-20201117210142148"></p>
-<p><img src="https://uploadfiles.nowcoder.com/images/20190313/311436_1552470995798_E694EFF3D7CC8BA2BB2EE978CE1EB6FB" alt="img"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算机基础知识整理（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89/">计算机基础知识整理（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-11-16T16:16:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191155712.png" alt="image-20201109191155712"></p>
-<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109191445584.png" alt="image-20201109191445584"></p>
-<h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><h4 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193110806.png" alt="image-20201109193110806"></p>
-<h4 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h4><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109193150619.png" alt="image-20201109193150619"></p>
-<h3 id="线程间同步方式"><a href="#线程间同步方式" class="headerlink" title="线程间同步方式"></a>线程间同步方式</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109205204925.png" alt="image-20201109205204925"></p>
-<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109205225767.png" alt="image-20201109205225767"></p>
-<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109205338684.png" alt="image-20201109205338684"></p>
-<h3 id="有进程后为什么需要线程"><a href="#有进程后为什么需要线程" class="headerlink" title="有进程后为什么需要线程"></a>有进程后为什么需要线程</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109202257244.png" alt="image-20201109202257244"></p>
-<h3 id="单核机器上写多线程程序是否考虑要加锁？"><a href="#单核机器上写多线程程序是否考虑要加锁？" class="headerlink" title="单核机器上写多线程程序是否考虑要加锁？"></a>单核机器上写多线程程序是否考虑要加锁？</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109202758437.png" alt="image-20201109202758437"></p>
-<h3 id="线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的"><a href="#线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的" class="headerlink" title="线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的"></a>线程需要保存哪些上下文，SP、PC、EAX这些寄存器是干嘛用的</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109203555248.png" alt="image-20201109203555248"></p>
-<h3 id="多进程和多线程的使用场景"><a href="#多进程和多线程的使用场景" class="headerlink" title="多进程和多线程的使用场景"></a>多进程和多线程的使用场景</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109210040475.png" alt="image-20201109210040475"></p>
-<h3 id="常用的线程模型"><a href="#常用的线程模型" class="headerlink" title="常用的线程模型"></a>常用的线程模型</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121191323179.png" alt="image-20201121191323179"></p>
-<h3 id="进程状态转换图"><a href="#进程状态转换图" class="headerlink" title="进程状态转换图"></a>进程状态转换图</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117203626402.png" alt="image-20201117203626402"></p>
-<h2 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200646789.png" alt="image-20201109200646789"></p>
-<h2 id="Linux虚拟内存空间"><a href="#Linux虚拟内存空间" class="headerlink" title="Linux虚拟内存空间"></a>Linux虚拟内存空间</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109194012989.png" alt="image-20201109194012989"></p>
-<h3 id="虚拟内存置换的方式"><a href="#虚拟内存置换的方式" class="headerlink" title="虚拟内存置换的方式"></a>虚拟内存置换的方式</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117202019229.png" alt="image-20201117202019229"></p>
-<h2 id="程序的内存结构"><a href="#程序的内存结构" class="headerlink" title="程序的内存结构"></a>程序的内存结构</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109194703369.png" alt="image-20201109194703369"></p>
-<h3 id="A-a-new-A-a-gt-i-10-在内核中的内存分配上发生了什么？"><a href="#A-a-new-A-a-gt-i-10-在内核中的内存分配上发生了什么？" class="headerlink" title="A* a = new A; a-&gt;i = 10; 在内核中的内存分配上发生了什么？"></a>A* a = new A; a-&gt;i = 10; 在内核中的内存分配上发生了什么？</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117204030799.png" alt="image-20201117204030799"></p>
-<h3 id="静态变量什么时候初始化"><a href="#静态变量什么时候初始化" class="headerlink" title="静态变量什么时候初始化"></a>静态变量什么时候初始化</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201121183457186.png" alt="image-20201121183457186"></p>
-<h3 id="含有static，virtual等关键字的类的内存分布"><a href="#含有static，virtual等关键字的类的内存分布" class="headerlink" title="含有static，virtual等关键字的类的内存分布"></a>含有static，virtual等关键字的类的内存分布</h3><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201117205025664.png" alt="image-20201117205025664"></p>
-<h2 id="缺页中断"><a href="#缺页中断" class="headerlink" title="缺页中断"></a>缺页中断</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109195031920.png" alt="image-20201109195031920"> </p>
-<h2 id="页表寻址"><a href="#页表寻址" class="headerlink" title="页表寻址"></a>页表寻址</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109201834535.png" alt="image-20201109201834535"></p>
-<h2 id="OS缺页置换算法"><a href="#OS缺页置换算法" class="headerlink" title="OS缺页置换算法"></a>OS缺页置换算法</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109205808449.png" alt="image-20201109205808449"></p>
-<h2 id="fork和vfork的区别"><a href="#fork和vfork的区别" class="headerlink" title="fork和vfork的区别"></a>fork和vfork的区别</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200021906.png" alt="image-20201109200021906"></p>
-<h2 id="修改文件最大句柄数"><a href="#修改文件最大句柄数" class="headerlink" title="修改文件最大句柄数"></a>修改文件最大句柄数</h2><p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200413838.png" alt="image-20201109200413838"></p>
-<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200429238.png" alt="image-20201109200429238"></p>
-<p><img src="https://raw.githubusercontent.com/SuzanneHuang/figurebed/master/img/image-20201109200455145.png" alt="image-20201109200455145"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">操作系统</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Local-Storage简要研究" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1417,10 +1019,166 @@
 
 
   
+    <article id="post-解决-sh-Permission-denied" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-    </nav>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/">解决.sh: Permission denied</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/08/%E8%A7%A3%E5%86%B3-sh-Permission-denied/" class="archive-article-date">
+  	<time datetime="2020-09-08T08:23:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在嵌入式系统想要在/cusdata目录执行脚本时发现该目录没有执行权限，会提示Permission denied</p>
+<p>可是ls -l发现该目录和文件都是有执行权限的，查看/etc/scripts/mount_cusdata.sh发现</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -orw,,nosuid,nodev,noexec -t ext4 /dev/mmcblk0p23 /cusdata;</span><br></pre></td></tr></table></figure>
+
+<p>系统给/cusdata分区挂载时加入了nosuid,nodev,noexec这些挂载选项（目的是为了提高linux系统安全性），所以导致即使在该目录让脚本可执行，实际还是不能执行。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p> 编辑/etc/scripts/mount_cusdata.sh，去掉nosuid,nodev,noexec选项重启就ok了，还要注意关闭selinux，防止软链接之类的功能正常运转。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-build-asan-for-arm-target" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/04/build-asan-for-arm-target/">build asan for arm target</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/04/build-asan-for-arm-target/" class="archive-article-date">
+  	<time datetime="2020-09-04T13:29:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于应用在嵌入式设备运行的需要，尝试编译时加上asan，但是发现clang没有内置arm版本的asan库（libclang_rt.asan-arm.a等），所以需要自己编译。</p>
+<h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> somewhere</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Get llvm, clang and compiler-rt</span></span><br><span class="line">svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm</span><br><span class="line">cd llvm</span><br><span class="line">R=$(svn info | grep Revision: | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">(cd tools &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn co -r $R http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
+
+<p>To switch your checkout to read-write mode:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CNAME=your_name_here</span><br><span class="line">cd llvm</span><br><span class="line">svn switch --relocate http://llvm.org/svn/llvm-project/llvm/trunk https://$CNAME@llvm.org/svn/llvm-project/llvm/trunk</span><br><span class="line">(cd tools &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/cfe/trunk https://$CNAME@llvm.org/svn/llvm-project/cfe/trunk clang)</span><br><span class="line">(cd projects &amp;&amp; svn switch --relocate http://llvm.org/svn/llvm-project/compiler-rt/trunk https://$CNAME@llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt)</span><br></pre></td></tr></table></figure>
+
+<h4 id="交叉编译"><a href="#交叉编译" class="headerlink" title="交叉编译"></a>交叉编译</h4><p>首先进入源码里compiler-rt所在同级目录，创建asan_build目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -DCOMPILER_RT_BUILD_BUILTINS=ON -DCOMPILER_RT_BUILD_SANITIZERS=ON -DCOMPILER_RT_BUILD_XRAY=ON -DCOMPILER_RT_BUILD_LIBFUZZER=ON -DCOMPILER_RT_BUILD_PROFILE=ON -DCMAKE_SYSROOT=/home/core/toolchain/arm-2019.09/arm-linux-gnueabi/libc/ -DCMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN=/home/core/toolchain/arm-2019.09 -DCMAKE_ASM_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCMAKE_C_COMPILER_TARGET=&quot;arm-linux-gnueabi&quot; -DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON -DCMAKE_C_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-gcc -DCMAKE_CXX_COMPILER=/home/core/toolchain/arm-2019.09/bin/arm-linux-gnueabi-g++ ../compiler-rt/</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>编译成功，可以看到lib/linux/下有asan相关的库。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">clang_rt.crtbegin-arm.o          libclang_rt.cfi-arm.a                libclang_rt.scudo_minimal-arm.so         libclang_rt.ubsan_standalone_cxx-arm.a</span><br><span class="line">clang_rt.crtend-arm.o            libclang_rt.cfi_diag-arm.a           libclang_rt.stats-arm.a                  libclang_rt.ubsan_standalone_cxx-arm.a.syms</span><br><span class="line">libclang_rt.asan-arm.a           libclang_rt.lsan-arm.a               libclang_rt.stats_client-arm.a           libclang_rt.xray-arm.a</span><br><span class="line">libclang_rt.asan-arm.a.syms      libclang_rt.profile-arm.a            libclang_rt.ubsan_minimal-arm.a          libclang_rt.xray-basic-arm.a</span><br><span class="line">libclang_rt.asan-arm.so          libclang_rt.scudo-arm.a              libclang_rt.ubsan_minimal-arm.a.syms     libclang_rt.xray-fdr-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a       libclang_rt.scudo-arm.so             libclang_rt.ubsan_minimal-arm.so         libclang_rt.xray-profiling-arm.a</span><br><span class="line">libclang_rt.asan_cxx-arm.a.syms  libclang_rt.scudo_cxx-arm.a          libclang_rt.ubsan_standalone-arm.a</span><br><span class="line">libclang_rt.asan-preinit-arm.a   libclang_rt.scudo_cxx_minimal-arm.a  libclang_rt.ubsan_standalone-arm.a.syms</span><br><span class="line">libclang_rt.builtins-arm.a       libclang_rt.scudo_minimal-arm.a      libclang_rt.ubsan_standalone-arm.so</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a target="_blank" rel="noopener" href="https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild">https://github.com/google/sanitizers/wiki/AddressSanitizerHowToBuild</a></p>
+<p><a target="_blank" rel="noopener" href="https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html">https://llvm.org/docs/HowToCrossCompileBuiltinsOnArm.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cross compile</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
@@ -1521,14 +1279,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">操作系统</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
              
               <li class="article-tag-list-item">
