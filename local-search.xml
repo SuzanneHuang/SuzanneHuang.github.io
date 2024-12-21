@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>代码构建工具cmake和catkin_make</title>
+    <link href="/p/f46e5861897b4bd6841eed5315979314/"/>
+    <url>/p/f46e5861897b4bd6841eed5315979314/</url>
+    
+    <content type="html"><![CDATA[<h2 id="cmake语法"><a href="#cmake语法" class="headerlink" title="cmake语法"></a>cmake语法</h2><h3 id="ADD-DEPENDENCIES"><a href="#ADD-DEPENDENCIES" class="headerlink" title="ADD_DEPENDENCIES"></a>ADD_DEPENDENCIES</h3><p>定义 target 依赖的其他 target，确保在编译本 target 之前，其他的 target 已经被构建。</p><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">ADD_DEPENDENCIES(<span class="hljs-keyword">target</span>-name depend-<span class="hljs-keyword">target</span><span class="hljs-number">1</span><br> depend-<span class="hljs-keyword">target</span><span class="hljs-number">2</span> ...)<br></code></pre></td></tr></table></figure><h3 id="TARGET-LINK-LIBRARIES"><a href="#TARGET-LINK-LIBRARIES" class="headerlink" title="TARGET_LINK_LIBRARIES"></a>TARGET_LINK_LIBRARIES</h3><p>为 target 添加需要链接的共享库:</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">TARGET_LINK_LIBRARIES</span>(<span class="hljs-keyword">target</span> library1<br> &lt;debug | optimized&gt; library2<br> ...)<br></code></pre></td></tr></table></figure><h3 id="FIND-PACKAGE"><a href="#FIND-PACKAGE" class="headerlink" title="FIND_PACKAGE"></a>FIND_PACKAGE</h3><p>用来调用预定义在 CMAKE_MODULE_PATH 下的 Find<name>.cmake 模块。</p><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">FIND_PACKAGE(&lt;name&gt; <span class="hljs-comment">[major.minor]</span> <span class="hljs-comment">[QUIET]</span> <span class="hljs-comment">[NO_MODULE]</span><br> <span class="hljs-comment">[<span class="hljs-comment">[REQUIRED|COMPONENTS]</span> <span class="hljs-comment">[componets...]</span>]</span>)<br></code></pre></td></tr></table></figure><h2 id="catkin-make语法"><a href="#catkin-make语法" class="headerlink" title="catkin_make语法"></a>catkin_make语法</h2><p>加粗为Catkin的语法<br>cmake_minimum_required() #CMake的版本号<br>project() #项目名称<br>find_package() #找到编译需要的其他CMake&#x2F;Catkin package<br><strong>catkin_python_setup()</strong> #catkin新加宏，打开catkin的Python Module的支持<br><strong>add_message_files()</strong> #catkin新加宏，添加自定义Message&#x2F;Service&#x2F;Action文件<br><strong>add_service_files()</strong><br><strong>add_action_files()</strong><br><strong>generate_message()</strong> #catkin新加宏，生成不同语言版本的msg&#x2F;srv&#x2F;action接口<br><strong>catkin_package()</strong> #catkin新加宏，生成当前package的cmake配置，供依赖本包的其他软件包调用<br>add_library() #生成库<br>add_executable() #生成可执行二进制文件<br>add_dependencies() #定义目标文件依赖于其他目标文件，确保其他目标已被构建<br>target_link_libraries() #链接<br><strong>catkin_add_gtest()</strong> #catkin新加宏，生成测试<br>install() #安装至本机</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>computer</category>
+      
+      <category>操作系统</category>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>build</tag>
+      
+      <tag>catkin_make</tag>
+      
+      <tag>ros</tag>
+      
+      <tag>cmake</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>vim可重复的操作及如何回退</title>
+    <link href="/p/2273b5c40e7e4648b85de0f851cb80a8/"/>
+    <url>/p/2273b5c40e7e4648b85de0f851cb80a8/</url>
+    
+    <content type="html"><![CDATA[<p><img src="/resources/94c88c00dc294a0ba26db9aeedb1c8e3.jpeg"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>computer</category>
+      
+      <category>操作系统</category>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vim</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
